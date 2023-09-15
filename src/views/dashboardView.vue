@@ -48,6 +48,20 @@ export default {
       this.fileList=this.fileList.slice(-1);
     },
     handleUpload() {
+      if(this.inputTitle==""){
+        this.$notification.error({
+          message: '上传失败',
+          description: '没有输入标题',
+        });
+        return;
+      }else if(this.fileList.length==0){
+        this.$notification.error({
+          message: '上传失败',
+          description: '没有上传文件',
+        });
+        return;
+      }
+
       const { fileList } = this;
       const formData = new FormData();
       fileList.forEach(file => {
@@ -62,7 +76,9 @@ export default {
           name: localStorage.getItem("name")
         },
         params: {
-          title: this.inputTitle
+          title: this.inputTitle,
+          tag: this.inputTag,
+          top: this.top
         }
       }).then((response)=>{
         if(response.data.ok==true){
@@ -72,6 +88,8 @@ export default {
           });
           this.inputTitle="";
           this.fileList=[];
+          this.inputTag="";
+          this.top=false;
         }else{
           this.$notification.error({
             message: '上传失败',
