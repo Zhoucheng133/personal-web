@@ -7,24 +7,16 @@
       </div>
       <div class="inputItem">
         <div class="inputText">标题</div>
-        <a-input class="inputArea" v-model="inputTitle"></a-input>
+        <a-input class="inputArea" v-model:value="inputTitle"></a-input>
       </div>
       <div class="inputItem" style="margin-top: 30px;">
         <div class="inputText">文件</div>
         <div class="uploadArea">
-          <a-config-provider
-                :theme="{
-                  token: {
-                    colorPrimary: '#00b96b',
-                  },
-                }"
-              >
           <a-upload :file-list="fileList" @remove="handleRemove" :before-upload="beforeUpload" @change="handleChange">
             <a-button type="primary"> 
               选择文件
             </a-button>
             </a-upload>
-          </a-config-provider>
         </div>
       </div>
       <div class="uploadButton" @click="handleUpload"><svg width="27" height="27" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 12L31 24L19 36" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>

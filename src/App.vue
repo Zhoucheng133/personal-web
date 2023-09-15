@@ -1,5 +1,13 @@
 <template>
-  <router-view></router-view>
+  <a-config-provider
+    :theme="{
+      token: {
+        colorPrimary: '#FFA600',
+      },
+    }"
+  >
+    <router-view></router-view>
+  </a-config-provider>
 </template>
 
 <style>

@@ -2,30 +2,29 @@
   <div class="body">
     <div class="pagemask" :style="{'transform': 'translateX('+maskX+')'}"></div>
     <div class="panel">
-      <div class="backButton" @click="back"><SwapLeftOutlined /></div>
+      <div class="backButton" @click="back">
+        <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M31 36L19 24L31 12" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
       <div class="inputItem">
         <div class="inputText">用户名</div>
-        <a-input class="inputArea" v-model="inputName"></a-input>
+        <a-input class="inputArea" v-model:value="inputName"></a-input>
       </div>
       <div class="inputItem" style="margin-top: 30px;">
         <div class="inputText">密码</div>
-        <a-input-password class="inputArea" v-model="inputPass"></a-input-password>
+        <a-input-password class="inputArea" v-model:value="inputPass"></a-input-password>
       </div>
-      <div class="loginButton" @click="login"><SwapRightOutlined /></div>
+      <div class="loginButton" @click="login">
+        <svg width="27" height="27" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 12L31 24L19 36" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { SwapLeftOutlined, SwapRightOutlined} from '@ant-design/icons-vue';
 import {baseURL} from "@/_paras";
 var axios=require("axios")
 var cryptoJS=require("crypto-js");
 export default {
-  components: {
-    SwapLeftOutlined,
-    SwapRightOutlined
-  },
   data() {
     return {
       maskX: '-100%',
