@@ -10,14 +10,20 @@
         <a-input class="inputArea" v-model:value="inputTitle"></a-input>
       </div>
       <div class="inputItem" style="margin-top: 30px;">
+        <div class="inputText">Tag</div>
+        <a-input class="inputArea" v-model:value="inputTag"></a-input>
+      </div>
+      <div class="inputItem2" style="margin-top: 30px;">
         <div class="inputText">文件</div>
+        <div class="inputText">置顶</div>
         <div class="uploadArea">
           <a-upload :file-list="fileList" @remove="handleRemove" :before-upload="beforeUpload" @change="handleChange">
             <a-button type="primary"> 
               选择文件
             </a-button>
-            </a-upload>
+          </a-upload>
         </div>
+        <div style="padding-top: 5px;"><a-switch v-model:checked="top" /></div>
       </div>
       <div class="uploadButton" @click="handleUpload"><svg width="27" height="27" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 12L31 24L19 36" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     </div>
@@ -33,6 +39,8 @@ export default {
       maskX: '-100%',
       fileList: [],
       inputTitle: '',
+      inputTag: '',
+      top: false,
     }
   },
   methods: {
@@ -149,6 +157,7 @@ export default {
 .uploadArea{
   width: 100%;
   text-align: left;
+  display: flex;
 }
 .pagemask{
   position: fixed;
@@ -182,6 +191,13 @@ export default {
   font-size: 16px;
   margin-bottom: 5px;
 }
+.inputItem2{
+  display: grid;
+  width: 250px;
+  grid-template-columns: 125px 125px;
+  grid-template-rows: 30px auto;
+  text-align: left;
+}
 .inputItem{
   display: flex;
   flex-direction: column;
@@ -211,7 +227,7 @@ export default {
   overflow: hidden;
   display: flex;
   /* justify-content: center; */
-  padding-top: 160px;
+  padding-top: 130px;
   flex-direction: column;
   align-items: center;
   opacity: 0;
