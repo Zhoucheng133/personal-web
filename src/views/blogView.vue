@@ -82,8 +82,12 @@ export default {
             this.tags.push(this.blogList[i]['tag'])
           }
         }
-
         console.log(this.tags);
+      }).catch(()=>{
+        this.$notification.error({
+          message: '加载失败',
+          description: '无法连接到数据库',
+        });
       })
     }
   },
