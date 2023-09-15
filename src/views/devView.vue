@@ -19,7 +19,7 @@ export default {
   },
   data() {
     return {
-      pageIndex: 3,
+      pageIndex: 2,
       maskX: '-100%',
       mobile: false,
     }
@@ -42,7 +42,7 @@ export default {
     },
     windowController(){
       if(window.innerWidth<700 && this.mobile==false){
-        this.$router.push('/m/about');
+        this.$router.push('/m/dev');
         this.mobile=true;
       }
     }
@@ -83,6 +83,7 @@ export default {
   user-select: none;
   color: rgb(200, 200, 200);
 }
+
 .pagemask{
   position: fixed;
   top: 0;

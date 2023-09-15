@@ -5,7 +5,10 @@
     :pageIndex="pageIndex" 
     @toPage="toPage" />
     <div class="btBar">
-      <div>Design by Zhouc</div>
+      <div style="display: flex;">
+        <div>Design by Zhouc |&nbsp;</div>
+        <div class="dashboard" @click="toDashboard">Dashboard</div>
+      </div>
       <div class="copyright">2023 ~ now, All Rights Reserved.</div>
     </div>
   </div>
@@ -19,12 +22,21 @@ export default {
   },
   data() {
     return {
-      pageIndex: 3,
+      pageIndex: 1,
       maskX: '-100%',
       mobile: false,
+
+      testArea: ""
     }
   },
   methods: {
+    toDashboard(){
+      this.maskX='0';
+      var that=this;
+      setTimeout(() => {
+        that.$router.push("/dashboard");
+      }, 800)
+    },
     toPage(index){
       this.maskX='0';
       var that=this;
@@ -42,7 +54,7 @@ export default {
     },
     windowController(){
       if(window.innerWidth<700 && this.mobile==false){
-        this.$router.push('/m/about');
+        this.$router.push('/m/blog');
         this.mobile=true;
       }
     }
@@ -53,10 +65,22 @@ export default {
       this.windowController();
     }
   },
+  created() {
+  },
 }
 </script>
 
 <style scoped>
+.codeText{
+	text-align: left;
+}
+.dashboard:hover{
+  cursor: pointer;
+  color: rgb(230, 188, 0);
+}
+.dashboard{
+  transition: all ease-in-out .3s;
+}
 @keyframes opacityAnimation {
   0%{
     opacity: 0;
@@ -83,6 +107,7 @@ export default {
   user-select: none;
   color: rgb(200, 200, 200);
 }
+
 .pagemask{
   position: fixed;
   top: 0;
