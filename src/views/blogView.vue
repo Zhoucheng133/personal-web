@@ -1,9 +1,19 @@
 <template>
-  <div>
+  <div class="body">
     <div class="pagemask" :style="{'transform': 'translateX('+maskX+')'}"></div>
     <topBar class="topBar" 
     :pageIndex="pageIndex" 
     @toPage="toPage" />
+
+    <div class="content">
+      <div class="fixBar">
+
+      </div>
+      <!-- <div v-for="(item, index) in blogList" :key="index">
+        {{ item["id"]+":"+item["title"] }}
+      </div> -->
+    </div>
+
     <div class="btBar">
       <div style="display: flex;">
         <div>Design by Zhouc |&nbsp;</div>
@@ -15,6 +25,8 @@
 </template>
 
 <script>
+import {baseURL} from "@/_paras";
+var axios=require("axios")
 import topBar from '@/components/topBar.vue';
 export default {
   components: {
@@ -26,7 +38,10 @@ export default {
       maskX: '-100%',
       mobile: false,
 
-      testArea: ""
+      blogList: [],
+
+      tags: [],
+
     }
   },
   methods: {
@@ -57,6 +72,19 @@ export default {
         this.$router.push('/m/blog');
         this.mobile=true;
       }
+    },
+    getAllBlogs(){
+      axios.get(baseURL+"/api/blog/getAll").then((response)=>{
+        this.blogList = response.data;
+
+        for(var i=0; i<this.blogList.length; i++){
+          if(!this.tags.includes(this.blogList[i]['tag'])){
+            this.tags.push(this.blogList[i]['tag'])
+          }
+        }
+
+        console.log(this.tags);
+      })
     }
   },
   mounted() {
@@ -66,11 +94,29 @@ export default {
     }
   },
   created() {
+    this.getAllBlogs();
   },
 }
 </script>
 
 <style scoped>
+.fixBar{
+  width: 100%;
+  height: 100px;
+  background-color: rgb(240, 240, 240);
+}
+.content{
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+.body{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .codeText{
 	text-align: left;
 }
