@@ -35,9 +35,22 @@ export default {
   created() {
     axios.get(baseURL+"/api/blog/content/"+this.$route.params.id).then((response)=>{
       this.content=response.data;
+      if(this.content==''){
+        this.$notification.error({
+          message: '不存在的文档',
+          description: '文档不存在，正在跳转到Blog页',
+        });
+        this.$router.push("/blog")
+      }
       this.$nextTick(()=>{
           this.btAreaSet();
         })
+    }).catch(()=>{
+      this.$notification.error({
+        message: '无法查看文档',
+        description: '服务器连接错误，稍后重试',
+      });
+      this.$router.push("/blog")
     })
   },
   methods: {
