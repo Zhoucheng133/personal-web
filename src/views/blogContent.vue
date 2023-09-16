@@ -1,11 +1,11 @@
 <template>
-  <div class="body">
+  <div class="body" ref="body">
     <div class="pagemask" :style="{'transform': 'translateX('+maskX+')'}"></div>
     <topBar class="topBar" :pageIndex="pageIndex" @toPage="toPage" />
     <div class="content">
       <v-md-preview :text="content" class="codeText" style="width: 100%;"></v-md-preview>
     </div>
-    <div class="btBar">
+    <div :class="setBarFix==true?'btBar_Fix':'btBar'">
       <div style="display: flex;">
         <div>Design by Zhouc |&nbsp;</div>
         <div class="dashboard" @click="toDashboard">Dashboard</div>
@@ -26,19 +26,28 @@ export default {
       maskX: '-100%',
 
       content: '',
+      setBarFix: true,
     }
   },
   components: {
     topBar
   },
   created() {
-    // console.log(this.$route.params.id);
-
     axios.get(baseURL+"/api/blog/content/"+this.$route.params.id).then((response)=>{
       this.content=response.data;
+      this.$nextTick(()=>{
+          this.btAreaSet();
+        })
     })
   },
   methods: {
+    btAreaSet(){
+      if(this.$refs.body.offsetHeight<document.body.offsetHeight){
+        this.setBarFix=true;
+      }else{
+        this.setBarFix=false;
+      }
+    },
     toDashboard(){
       this.maskX='0';
       var that=this;
@@ -61,7 +70,12 @@ export default {
         }
       }, 800);
     },
-  }
+  },
+  mounted() {
+    window.onresize=()=>{
+      this.btAreaSet();
+    }
+  },
 }
 </script>
 
@@ -110,7 +124,12 @@ export default {
   font-size: 10px;
   margin-top: 5px;
 }
-.btBar{
+.btBar_Fix{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
+.btBar, .btBar_Fix{
   height: 80px;
   flex-direction: column;
   background-color: rgb(245, 245, 245);

@@ -1,5 +1,5 @@
 <template>
-  <div class="body">
+  <div class="body" ref="body">
     <div class="pagemask" :style="{'transform': 'translateX('+maskX+')'}"></div>
     <topBar class="topBar" 
     :pageIndex="pageIndex" 
@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <div class="btBar">
+    <div :class="setBarFix==true?'btBar_Fix':'btBar'">
       <div style="display: flex;">
         <div>Design by Zhouc |&nbsp;</div>
         <div class="dashboard" @click="toDashboard">Dashboard</div>
@@ -60,7 +60,7 @@ export default {
       tags: [],
 
       selectTag: "",
-
+      setBarFix: true,
     }
   },
   methods: {
@@ -72,12 +72,28 @@ export default {
       }, 800);
     },
     tagSelect(item){
+      this.setBarFix=true;
       if(this.selectTag==item){
         this.selectTag="";
         this.shownList=this.blogList;
       }else{
         this.selectTag=item;
-        this.shownList=this.blogList.filter(obj => obj.tag==item);
+        this.shownList=[];
+        setTimeout(() => {
+          this.shownList=this.blogList.filter(obj => obj.tag==item);
+        }, 200);
+      }
+      setTimeout(() => {
+        this.$nextTick(()=>{
+          this.btAreaSet();
+        })
+      }, 200);
+    },
+    btAreaSet(){
+      if(this.$refs.body.offsetHeight<document.body.offsetHeight){
+        this.setBarFix=true;
+      }else{
+        this.setBarFix=false;
       }
     },
     toDashboard(){
@@ -127,6 +143,9 @@ export default {
         }
         // console.log(this.blogList);
         this.shownList=this.blogList;
+        this.$nextTick(()=>{
+          this.btAreaSet();
+        })
       }).catch(()=>{
         this.$notification.error({
           message: '加载失败',
@@ -139,6 +158,7 @@ export default {
     this.windowController();
     window.onresize=()=>{
       this.windowController();
+      this.btAreaSet();
     }
   },
   created() {
@@ -268,7 +288,12 @@ export default {
   font-size: 10px;
   margin-top: 5px;
 }
-.btBar{
+.btBar_Fix{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
+.btBar, .btBar_Fix{
   height: 80px;
   flex-direction: column;
   background-color: rgb(245, 245, 245);
@@ -282,6 +307,7 @@ export default {
   user-select: none;
   color: rgb(200, 200, 200);
   margin-top: 20px;
+  transition: all linear .3s;
 }
 
 .pagemask{
