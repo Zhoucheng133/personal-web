@@ -3,6 +3,7 @@
     <div class="pagemask" :style="{'transform': 'translateX('+maskX+')'}"></div>
     <topBar class="topBar" 
     :pageIndex="pageIndex" 
+    :mobile="mobile"
     @toPage="toPage" />
     <div class="cover">
       <img src="@/assets/logo.png" alt="logo" class="logo">
@@ -49,8 +50,9 @@ export default {
     },
     windowController(){
       if(window.innerWidth<700 && this.mobile==false){
-        this.$router.push('/m');
         this.mobile=true;
+      }else{
+        this.mobile=false;
       }
     }
   },

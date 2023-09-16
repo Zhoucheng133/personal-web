@@ -3,7 +3,7 @@
     <div class="content">
       <div class="leftSide">
         <img src="@/assets/logo.png" alt="logo" class="logo" style="margin-right: 10px;">
-        Zhouc's Web
+        <div v-show="!mobile">Zhouc's Web</div>
       </div>
       
       <div :class="pageIndex==0?'itemSelected':'item'" style="margin-right: 5px;margin-left: auto;" @click="toPage(0)">
@@ -12,7 +12,7 @@
         </div>
         <div class="itemText">
           <div class="mask"></div>
-          <div class="textContent">主页</div>
+          <div class="textContent" v-show="!mobile">主页</div>
         </div>
       </div>
 
@@ -22,7 +22,7 @@
         </div>
         <div class="itemText">
           <div class="mask"></div>
-          <div class="textContent">Blog</div>
+          <div class="textContent" v-show="!mobile">Blog</div>
         </div>
       </div>
 
@@ -32,7 +32,7 @@
         </div>
         <div class="itemText">
           <div class="mask"></div>
-          <div class="textContent">开发</div>
+          <div class="textContent" v-show="!mobile">开发</div>
         </div>
       </div>
 
@@ -42,7 +42,7 @@
         </div>
         <div class="itemText">
           <div class="mask"></div>
-          <div class="textContent">关于</div>
+          <div class="textContent" v-show="!mobile">关于</div>
         </div>
       </div>
     </div>
@@ -53,6 +53,7 @@
 export default {
   props:{
     pageIndex: Number,
+    mobile: Boolean
   },
   methods: {
     toPage(index){

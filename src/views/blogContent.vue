@@ -1,15 +1,19 @@
 <template>
   <div class="body" ref="body">
     <div class="pagemask" :style="{'transform': 'translateX('+maskX+')'}"></div>
-    <topBar class="topBar" :pageIndex="pageIndex" @toPage="toPage" />
+    <topBar class="topBar" :pageIndex="pageIndex" @toPage="toPage" :mobile="mobile" />
     <div class="content">
       <div class="infoBar">
 
-        <div style="display: flex;">
-          <svg width="16" height="16" style="margin-right: 5px;" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V43" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M36 5V43" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 24L36 24" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          {{ content['title'] }}
-          <svg width="16" height="16" style="margin-right: 5px; margin-left: 20px;" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44Z" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/><path d="M24.0084 12.0001L24.0072 24.0089L32.4866 32.4883" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          {{ content['date'] }}
+        <div style="display: grid; width: 100%; grid-template-columns:1fr 1fr;">
+          <div style="display: grid; align-items: center; grid-template-columns:21px auto;">
+            <svg width="16" height="16" style="margin-right: 5px;" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V43" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M36 5V43" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 24L36 24" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div style="width: 100%; white-space:nowrap; overflow: hidden; text-overflow: ellipsis;text-align: left;">{{ content['title'] }}</div>
+          </div>
+          <div style="display: grid; align-items: center; grid-template-columns:21px auto;">
+            <svg width="16" height="16" style="margin-right: 5px;" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44Z" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/><path d="M24.0084 12.0001L24.0072 24.0089L32.4866 32.4883" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div style="width: 100%; white-space:nowrap; overflow: hidden; text-overflow: ellipsis;text-align: left;">{{ content['date'] }}</div>
+          </div>
         </div>
 
         <div style="display: flex;margin-top: 5px;">
@@ -46,6 +50,8 @@ export default {
         content: ""
       },
       setBarFix: true,
+
+      mobile: false,
     }
   },
   components: {
@@ -111,9 +117,18 @@ export default {
         }
       }, 800);
     },
+    windowController(){
+      if(window.innerWidth<700){
+        this.mobile=true;
+      }else{
+        this.mobile=false;
+      }
+    }
   },
   mounted() {
+    this.windowController();
     window.onresize=()=>{
+      this.windowController();
       this.btAreaSet();
     }
   },
@@ -122,16 +137,15 @@ export default {
 
 <style scoped>
 .infoBar{
-  user-select: none;
+  display: flex;
   flex-direction: column;
+  justify-content: center;
+  user-select: none;
   padding-left: 32px;
   padding-right: 32px;
   width: 100%;
   height: 70px;
   padding-top: 16px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
   opacity: 0;
   animation: opacityAnimation linear .3s forwards;
   animation-delay: .5s;

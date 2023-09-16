@@ -3,6 +3,7 @@
     <div class="pagemask" :style="{'transform': 'translateX('+maskX+')'}"></div>
     <topBar class="topBar" 
     :pageIndex="pageIndex" 
+    :mobile="mobile"
     @toPage="toPage" />
     <div class="btBar">
       <div>Design by Zhouc</div>
@@ -41,9 +42,10 @@ export default {
       }, 800);
     },
     windowController(){
-      if(window.innerWidth<700 && this.mobile==false){
-        this.$router.push('/m/about');
+      if(window.innerWidth<700){
         this.mobile=true;
+      }else{
+        this.mobile=false;
       }
     }
   },

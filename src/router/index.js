@@ -22,26 +22,6 @@ const routes = [
     component: () => import('@/views/aboutView.vue')
   },
   {
-    path: '/m',
-    name: "mobile home",
-    component: () => import('@/views/mobileViews/homeView_m.vue')
-  },
-  {
-    path: '/m/blog',
-    name: 'mobile blog',
-    component: () => import('@/views/mobileViews/blogView_m.vue')
-  },
-  {
-    path: '/m/dev',
-    name: 'mobile dev',
-    component: () => import('@/views/mobileViews/devView_m.vue')
-  },
-  {
-    path: '/m/about',
-    name: 'mobile about',
-    component: () => import('@/views/mobileViews/aboutView_m.vue')
-  },
-  {
     path: '/dashboard',
     name: 'dashboard',
     component: () => import('@/views/dashboardView.vue')

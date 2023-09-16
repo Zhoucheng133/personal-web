@@ -3,6 +3,7 @@
     <div class="pagemask" :style="{'transform': 'translateX('+maskX+')'}"></div>
     <topBar class="topBar" 
     :pageIndex="pageIndex" 
+    :mobile="mobile"
     @toPage="toPage" />
 
     <div class="content">
@@ -15,8 +16,8 @@
         </div>
       </div>
       <div v-for="(item, index) in shownList" :key="index" class="blogSelector" :style="{'animation-delay': index*100+'ms'}" @click="toContent(item['id'])">
-        <div class="blogTitle">{{ item["title"] }}</div>
-        <div class="info">
+        <div class="blogTitle" :style="{'font-size': mobile==false ? '20px' : '15px'}">{{ item["title"] }}</div>
+        <div class="info" :style="{'font-size': mobile==false ? '15px' : '12px'}">
           <div style="max-width: 100%;">
             {{ item['date'] }}<FieldTimeOutlined class="icon" />
           </div>
@@ -122,9 +123,10 @@ export default {
       }, 800);
     },
     windowController(){
-      if(window.innerWidth<700 && this.mobile==false){
-        this.$router.push('/m/blog');
+      if(window.innerWidth<700){
         this.mobile=true;
+      }else{
+        this.mobile=false;
       }
     },
     getAllBlogs(){
@@ -190,7 +192,6 @@ export default {
 	text-overflow: ellipsis;
 }
 .blogTitle{
-  font-size: 20px;
   overflow: hidden;
 	white-space:nowrap;
 	text-overflow: ellipsis;
