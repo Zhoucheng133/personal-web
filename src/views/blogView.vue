@@ -14,8 +14,7 @@
           </div>
         </div>
       </div>
-      <div v-for="(item, index) in blogList" :key="index" class="blogSelector">
-        <!-- {{ item["id"]+":"+item["title"] }} -->
+      <div v-for="(item, index) in shownList" :key="index" class="blogSelector" :style="{'animation-delay': index*100+'ms'}">
         <div class="blogTitle">{{ item["title"] }}</div>
         <div class="info">
           <div style="max-width: 100%;">
@@ -56,6 +55,7 @@ export default {
       mobile: false,
 
       blogList: [],
+      shownList: [],
 
       tags: [],
 
@@ -67,10 +67,11 @@ export default {
     tagSelect(item){
       if(this.selectTag==item){
         this.selectTag="";
+        this.shownList=this.blogList;
       }else{
         this.selectTag=item;
+        this.shownList=this.blogList.filter(obj => obj.tag==item);
       }
-      // 注意添加筛选代码
     },
     toDashboard(){
       this.maskX='0';
@@ -117,7 +118,8 @@ export default {
             this.tags.push(this.blogList[i]['tag'])
           }
         }
-        console.log(this.blogList);
+        // console.log(this.blogList);
+        this.shownList=this.blogList;
       }).catch(()=>{
         this.$notification.error({
           message: '加载失败',
@@ -180,6 +182,8 @@ export default {
   border-radius: 20px;
   transition: all ease-in-out .3s;
   border: 3px solid rgba(255, 227, 100, 0);
+  opacity: 0;
+  animation: fadeIn ease-in-out .3s forwards;
 }
 .tagContent{
   max-height: 100%;
@@ -199,14 +203,6 @@ export default {
 }
 .text{
   font-size: 30px;
-}
-.fixBar{
-  width: 100%;
-  height: 100px;
-  user-select: none;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid lightgrey;
 }
 .content{
   width: 100%;
@@ -239,6 +235,27 @@ export default {
   100%{
     opacity: 1;
   }
+}
+@keyframes fadeIn {
+  0%{
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fixBar{
+  width: 100%;
+  height: 100px;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid lightgrey;
+  opacity: 0;
+  animation: opacityAnimation linear .3s forwards;
+  animation-delay: 1s;
 }
 .copyright{
   font-size: 10px;
