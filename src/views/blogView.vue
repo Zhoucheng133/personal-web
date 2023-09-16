@@ -135,7 +135,7 @@ export default {
           const day = date.getDate();
           const hours = date.getHours();
           const minutes = date.getMinutes();
-          this.blogList[i]['date']=`${year}/${month}/${day}, ${hours}:${minutes}`
+          this.blogList[i]['date']=`${year}/${month}/${day}, ${hours}:${minutes}`;
 
           if(!this.tags.includes(this.blogList[i]['tag'])){
             this.tags.push(this.blogList[i]['tag'])
