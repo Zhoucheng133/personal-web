@@ -86,7 +86,7 @@ export default {
     background-color: rgba(254, 242, 190, 0);
   }
   100%{
-    background-color: rgba(254, 242, 190, 1);
+    background-color: rgb(255, 227, 100);
   }
 }
 @keyframes maskAnimation {
@@ -167,7 +167,7 @@ export default {
   animation-delay: .8s;
 }
 .item:hover{
-  border: 3px solid rgba(254, 242, 190, 1);
+  border: 3px solid rgb(255, 227, 100);
 }
 .item{
   border: 3px solid rgba(254, 242, 190, 0);
