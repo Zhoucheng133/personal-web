@@ -14,9 +14,18 @@
           </div>
         </div>
       </div>
-      <!-- <div v-for="(item, index) in blogList" :key="index">
-        {{ item["id"]+":"+item["title"] }}
-      </div> -->
+      <div v-for="(item, index) in blogList" :key="index" class="blogSelector">
+        <!-- {{ item["id"]+":"+item["title"] }} -->
+        <div class="blogTitle">{{ item["title"] }}</div>
+        <div class="info">
+          <div style="max-width: 100%;">
+            {{ item['date'] }}<FieldTimeOutlined class="icon" />
+          </div>
+          <div style="margin-top: 5px; max-width: 100%; overflow: hidden; text-overflow: ellipsis;">
+            {{ item['tag'] }}<TagOutlined class="icon"/>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="btBar">
@@ -30,12 +39,15 @@
 </template>
 
 <script>
+import { FieldTimeOutlined, TagOutlined } from '@ant-design/icons-vue';
 import {baseURL} from "@/_paras";
 var axios=require("axios")
 import topBar from '@/components/topBar.vue';
 export default {
   components: {
-    topBar
+    topBar,
+    FieldTimeOutlined,
+    TagOutlined
   },
   data() {
     return {
@@ -58,6 +70,7 @@ export default {
       }else{
         this.selectTag=item;
       }
+      // 注意添加筛选代码
     },
     toDashboard(){
       this.maskX='0';
@@ -92,11 +105,19 @@ export default {
         this.blogList = response.data;
 
         for(var i=0; i<this.blogList.length; i++){
+          const date = new Date(this.blogList[i]['date']);
+          const year = date.getFullYear();
+          const month = date.getMonth() + 1; // 月份从0开始，所以要加1
+          const day = date.getDate();
+          const hours = date.getHours();
+          const minutes = date.getMinutes();
+          this.blogList[i]['date']=`${year}/${month}/${day}, ${hours}:${minutes}`
+
           if(!this.tags.includes(this.blogList[i]['tag'])){
             this.tags.push(this.blogList[i]['tag'])
           }
         }
-        console.log(this.tags);
+        console.log(this.blogList);
       }).catch(()=>{
         this.$notification.error({
           message: '加载失败',
@@ -118,6 +139,48 @@ export default {
 </script>
 
 <style scoped>
+.icon{
+  margin-left: 10px;
+}
+.info{
+  color: grey;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-right: 10px;
+  margin-left: auto;
+  height: 100%;
+  background: linear-gradient(to right, white, rgb(255, 227, 100, .4));
+  overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+}
+.blogTitle{
+  font-size: 20px;
+  overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+}
+.blogSelector:hover{
+  cursor: pointer;
+  border: 3px solid rgb(255, 227, 100);
+}
+.blogSelector{
+  /* padding-right: 10px; */
+  overflow: hidden;
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+  height: 80px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  user-select: none;
+  border-radius: 20px;
+  transition: all ease-in-out .3s;
+  border: 3px solid rgba(255, 227, 100, 0);
+}
 .tagContent{
   max-height: 100%;
   overflow: scroll;
@@ -140,12 +203,15 @@ export default {
 .fixBar{
   width: 100%;
   height: 100px;
+  user-select: none;
   display: flex;
   align-items: center;
   border-bottom: 1px solid lightgrey;
 }
 .content{
   width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
   max-width: 1000px;
   display: flex;
   flex-direction: column;
@@ -191,6 +257,7 @@ export default {
   animation-delay: 1s;
   user-select: none;
   color: rgb(200, 200, 200);
+  margin-top: 20px;
 }
 
 .pagemask{
