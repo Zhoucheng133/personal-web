@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     btAreaSet(){
-      if(this.$refs.body.offsetHeight<document.body.offsetHeight){
+      if(this.$refs.body.offsetHeight+80<document.body.offsetHeight){
         this.setBarFix=true;
       }else{
         this.setBarFix=false;
