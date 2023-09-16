@@ -14,7 +14,7 @@
           </div>
         </div>
       </div>
-      <div v-for="(item, index) in shownList" :key="index" class="blogSelector" :style="{'animation-delay': index*100+'ms'}">
+      <div v-for="(item, index) in shownList" :key="index" class="blogSelector" :style="{'animation-delay': index*100+'ms'}" @click="toContent(item['id'])">
         <div class="blogTitle">{{ item["title"] }}</div>
         <div class="info">
           <div style="max-width: 100%;">
@@ -64,6 +64,13 @@ export default {
     }
   },
   methods: {
+    toContent(id){
+      this.maskX='0';
+      var that=this;
+      setTimeout(() => {
+        that.$router.push("/blog/"+id);
+      }, 800);
+    },
     tagSelect(item){
       if(this.selectTag==item){
         this.selectTag="";
