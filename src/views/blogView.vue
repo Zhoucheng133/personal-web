@@ -75,7 +75,10 @@ export default {
       this.setBarFix=true;
       if(this.selectTag==item){
         this.selectTag="";
-        this.shownList=this.blogList;
+        this.shownList=[];
+        setTimeout(() => {
+          this.shownList=this.blogList;
+        }, 200);
       }else{
         this.selectTag=item;
         this.shownList=[];
