@@ -7,7 +7,12 @@
 
     <div class="content">
       <div class="fixBar">
-
+        <div class="text">TAG:</div>
+        <div class="tagSelector">
+          <div class="tagContent">
+            <a-button size="small" class="tagButton" v-for="(item, index) in tags" :key="index" @click="tagSelect(item)" :type="selectTag==item ? 'primary':'default'">{{ item }}</a-button>
+          </div>
+        </div>
       </div>
       <!-- <div v-for="(item, index) in blogList" :key="index">
         {{ item["id"]+":"+item["title"] }}
@@ -42,9 +47,18 @@ export default {
 
       tags: [],
 
+      selectTag: "",
+
     }
   },
   methods: {
+    tagSelect(item){
+      if(this.selectTag==item){
+        this.selectTag="";
+      }else{
+        this.selectTag=item;
+      }
+    },
     toDashboard(){
       this.maskX='0';
       var that=this;
@@ -104,10 +118,31 @@ export default {
 </script>
 
 <style scoped>
+.tagContent{
+  max-height: 100%;
+  overflow: scroll;
+}
+.tagButton{
+  margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.tagSelector{
+  /* height: 100%; */
+  max-height: 100%;
+  margin-left: 30px;
+  display: flex;
+  overflow: scroll;
+}
+.text{
+  font-size: 30px;
+}
 .fixBar{
   width: 100%;
   height: 100px;
-  background-color: rgb(240, 240, 240);
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid lightgrey;
 }
 .content{
   width: 100%;
