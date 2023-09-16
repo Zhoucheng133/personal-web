@@ -49,7 +49,7 @@ export default {
       }, 800);
     },
     windowController(){
-      if(window.innerWidth<700 && this.mobile==false){
+      if(window.innerWidth<700){
         this.mobile=true;
       }else{
         this.mobile=false;
