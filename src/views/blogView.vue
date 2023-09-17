@@ -11,15 +11,7 @@
         <div class="text">TAG:</div>
         <div class="tagSelector">
           <div class="tagContent">
-            <!-- <a-button size="small" class="tagButton" v-for="(item, index) in tags" :key="index" @click="tagSelect(item)" :type="selectTag==item ? 'primary':'default'">{{ item }}</a-button> -->
-            <a-button size="small" class="tagButton">测试1123123</a-button>
-            <a-button size="small" class="tagButton">测试1123123</a-button>
-            <a-button size="small" class="tagButton">测试1123123</a-button>
-            <a-button size="small" class="tagButton">测试1123123</a-button>
-            <a-button size="small" class="tagButton">测试1123123</a-button>
-            <a-button size="small" class="tagButton">测试1123123</a-button>
-            <a-button size="small" class="tagButton">测试1123123</a-button>
-            <a-button size="small" class="tagButton">测试1123123</a-button>
+            <a-button size="small" class="tagButton" v-for="(item, index) in tags" :key="index" @click="tagSelect(item)" :type="selectTag==item ? 'primary':'default'">{{ item }}</a-button>
           </div>
         </div>
       </div>
