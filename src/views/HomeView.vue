@@ -9,7 +9,7 @@
       <img src="@/assets/logo.png" alt="logo" class="logo">
       <div class="welcText">
         <div class="mask"></div>
-        <div class="textContent">欢迎来到Zhouc's Web!</div>
+        <div class="textContent">欢迎来到Zhouc's website!</div>
       </div>
     </div>
     <div class="btBar">
