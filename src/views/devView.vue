@@ -60,7 +60,7 @@ export default {
     }
   },
   created() {
-    document.title="Zhouc's Web - 开发";
+    document.title="Zhouc's website - 开发";
   },
 }
 </script>

@@ -70,7 +70,7 @@ export default {
     }
   },
   created() {
-    document.title="Zhouc's Web - 关于";
+    document.title="Zhouc's website - 关于";
   },
 }
 </script>

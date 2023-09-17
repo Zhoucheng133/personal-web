@@ -63,7 +63,7 @@ export default {
     }
   },
   created() {
-    document.title="Zhouc's Web - 主页";
+    document.title="Zhouc's website - 主页";
   },
 }
 </script>

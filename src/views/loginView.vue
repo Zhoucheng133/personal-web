@@ -81,7 +81,7 @@ export default {
     }
   },
   created() {
-    document.title="Zhouc's Web - 登录";
+    document.title="Zhouc's website - 登录";
   },
 }
 </script>

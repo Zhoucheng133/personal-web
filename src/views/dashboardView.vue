@@ -122,7 +122,7 @@ export default {
     }
   },
   created() {
-    document.title="Zhouc's Web - 控制台";
+    document.title="Zhouc's website - 控制台";
     if(localStorage.getItem("token")==null || localStorage.getItem("name")==null){
       this.$router.push("/dashboard/login")
     }else{

@@ -168,7 +168,7 @@ export default {
   },
   created() {
     this.getAllBlogs();
-    document.title="Zhouc's Web - Blog";
+    document.title="Zhouc's website - Blog";
   },
 }
 </script>
