@@ -10,7 +10,7 @@
       <div class="text">未开发的区域</div>
     </div>
     <div class="btBar">
-      <div>Design by Zhouc</div>
+      <div>Zhouc's website</div>
       <div class="copyright">2023 ~ now, All Rights Reserved.</div>
     </div>
   </div>

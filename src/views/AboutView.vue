@@ -5,8 +5,11 @@
     :pageIndex="pageIndex" 
     :mobile="mobile"
     @toPage="toPage" />
+    <div class="content">
+      <div class="title">本网站的开发离不开开源社区的贡献:</div>
+    </div>
     <div class="btBar">
-      <div>Design by Zhouc</div>
+      <div>Zhouc's website</div>
       <div class="copyright">2023 ~ now, All Rights Reserved.</div>
     </div>
   </div>
@@ -62,6 +65,21 @@ export default {
 </script>
 
 <style scoped>
+.title{
+  font-size: 20px;
+}
+.content{
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 61px - 80px);
+  background-color: white;
+  opacity: 0;
+  animation: opacityAnimation linear forwards .3s;
+  animation-delay: 1s;
+}
 @keyframes opacityAnimation {
   0%{
     opacity: 0;

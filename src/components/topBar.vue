@@ -3,7 +3,7 @@
     <div class="content">
       <div class="leftSide">
         <img src="@/assets/logo.png" alt="logo" class="logo" style="margin-right: 10px;">
-        <div v-show="!mobile">Zhouc's Web</div>
+        <div v-show="!mobile">Zhouc's website</div>
       </div>
       
       <div :class="pageIndex==0?'itemSelected':'item'" style="margin-right: 5px;margin-left: auto;" @click="toPage(0)">

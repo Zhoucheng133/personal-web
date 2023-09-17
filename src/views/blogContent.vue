@@ -29,7 +29,7 @@
     </div>
     <div :class="setBarFix==true?'btBar_Fix':'btBar'">
       <div style="display: flex;">
-        <div>Design by Zhouc |&nbsp;</div>
+        <div>Zhouc's website |&nbsp;</div>
         <div class="dashboard" @click="toDashboard">Dashboard</div>
       </div>
       <div class="copyright">2023 ~ now, All Rights Reserved.</div>
