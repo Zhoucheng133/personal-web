@@ -7,10 +7,11 @@
     @toPage="toPage" />
     <div class="content">
       <div class="title">本网站的开发离不开开源社区的贡献:</div>
-      <div>
+      <div class="deps">
         <div class="dep">Vue</div>
         <div class="dep">Spring Boot</div>
         <div class="dep">Ant Design of Vue</div>
+        <div class="dep">IconPark</div>
         <div class="dep">axios</div>
         <div class="dep">crypto-js</div>
         <div class="dep">vue-router</div>
@@ -75,6 +76,12 @@ export default {
 </script>
 
 <style scoped>
+.deps{
+  margin-top: 10px;
+  width: 200px;
+  height: 130px;
+  overflow: auto;
+}
 .dep{
   color: grey;
   margin-top: 5px;
