@@ -62,6 +62,7 @@ export default {
     topBar,
   },
   created() {
+    document.title="博客";
     axios.get(baseURL+"/api/blog/content/"+this.$route.params.id).then((response)=>{
       this.content=response.data;
       if(this.content.title==''){
@@ -79,6 +80,8 @@ export default {
       const hours = date.getHours();
       const minutes = date.getMinutes();
       this.content['date']=`${year}/${month}/${day}, ${hours}:${minutes}`
+
+      document.title="博客 - "+this.content.title;
 
       this.$nextTick(()=>{
           this.btAreaSet();

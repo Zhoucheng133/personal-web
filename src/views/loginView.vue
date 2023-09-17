@@ -80,6 +80,9 @@ export default {
       }, 800)
     }
   },
+  created() {
+    document.title="Zhouc's Web - 登录";
+  },
 }
 </script>
 

@@ -62,6 +62,9 @@ export default {
       this.windowController();
     }
   },
+  created() {
+    document.title="Zhouc's Web - 主页";
+  },
 }
 </script>
 

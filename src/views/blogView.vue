@@ -168,6 +168,7 @@ export default {
   },
   created() {
     this.getAllBlogs();
+    document.title="Zhouc's Web - Blog";
   },
 }
 </script>

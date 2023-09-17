@@ -55,6 +55,9 @@ export default {
       this.windowController();
     }
   },
+  created() {
+    document.title="Zhouc's Web - 开发";
+  },
 }
 </script>
 
