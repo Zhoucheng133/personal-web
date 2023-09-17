@@ -5,6 +5,10 @@
     :pageIndex="pageIndex" 
     :mobile="mobile"
     @toPage="toPage" />
+    <div class="content">
+      <svg width="50" height="50" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="8" width="40" height="32" rx="2" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/><path d="M12 18L19 24L12 30" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M23 32H36" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="text">未开发的区域</div>
+    </div>
     <div class="btBar">
       <div>Design by Zhouc</div>
       <div class="copyright">2023 ~ now, All Rights Reserved.</div>
@@ -62,6 +66,22 @@ export default {
 </script>
 
 <style scoped>
+.text{
+  margin-top: 10px;
+  font-size: 22px;
+}
+.content{
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 61px - 80px);
+  background-color: white;
+  opacity: 0;
+  animation: opacityAnimation linear forwards .3s;
+  animation-delay: 1s;
+}
 @keyframes opacityAnimation {
   0%{
     opacity: 0;
