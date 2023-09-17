@@ -3,6 +3,10 @@
     <div class="pagemask" :style="{'transform': 'translateX('+maskX+')'}"></div>
     <topBar class="topBar" :pageIndex="pageIndex" @toPage="toPage" :mobile="mobile" />
     <div class="content">
+      <div class="backBar" @click="toblog">
+        <svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 33C10 25.7011 14.103 19.4168 20 16.5919C22.1347 15.5693 24.5046 15 27 15C36.3888 15 44 23.0589 44 33" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 28L10 33L4 25" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        返回Blog页
+      </div>
       <div class="infoBar">
 
         <div style="display: grid; width: 100%; grid-template-columns:1fr 1fr;">
@@ -102,6 +106,13 @@ export default {
         that.$router.push("/dashboard");
       }, 800)
     },
+    toblog(){
+      this.maskX='0';
+      var that=this;
+      setTimeout(() => {
+        that.$router.push("/blog");
+      }, 800)
+    },
     toPage(index){
       this.maskX='0';
       var that=this;
@@ -136,6 +147,21 @@ export default {
 </script>
 
 <style scoped>
+.backBar:hover{
+  cursor: pointer;
+}
+.backBar{
+  display: flex;
+  width: 100%;
+  padding-left: 32px;
+  padding-right: 32px;
+  align-items: center;
+  padding-top: 16px;
+  user-select: none;
+  opacity: 0;
+  animation: opacityAnimation linear forwards .3s;
+  animation-delay: .5s;
+}
 .infoBar{
   display: flex;
   flex-direction: column;
