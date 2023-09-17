@@ -7,6 +7,16 @@
     @toPage="toPage" />
     <div class="content">
       <div class="title">本网站的开发离不开开源社区的贡献:</div>
+      <div>
+        <div class="dep">Vue</div>
+        <div class="dep">Spring Boot</div>
+        <div class="dep">Ant Design of Vue</div>
+        <div class="dep">axios</div>
+        <div class="dep">crypto-js</div>
+        <div class="dep">vue-router</div>
+        <div class="dep">Lombok</div>
+        <div class="dep">maven</div>
+      </div>
     </div>
     <div class="btBar">
       <div>Zhouc's website</div>
@@ -65,10 +75,15 @@ export default {
 </script>
 
 <style scoped>
+.dep{
+  color: grey;
+  margin-top: 5px;
+}
 .title{
   font-size: 20px;
 }
 .content{
+  user-select: none;
   justify-content: center;
   align-items: center;
   flex-direction: column;
