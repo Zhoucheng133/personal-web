@@ -46,7 +46,12 @@ export default {
 
       var sha256Pass=cryptoJS.SHA256(this.inputPass);
 
-      axios.get(baseURL+"/api/login?name="+this.inputName+"&pass="+sha256Pass).then((response)=>{
+      axios.get(baseURL+"/api/login",{
+        params: {
+          name: this.inputName,
+          pass: sha256Pass,
+        }
+      }).then((response)=>{
         if(response.data.ok==false){
           this.$notification.error({
             message: '登录失败',
