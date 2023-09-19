@@ -1,17 +1,27 @@
 <template>
   <div class="body">
     <sideBar class="sidebar" :selected="selected" @toPage="toPage" />
+
+    <upload v-if="selected==0" class="component" />
+    <editView v-else-if="selected==1" class="component" />
+    <fileManageView v-else-if="selected==2" class="component" />
   </div>
 </template>
 
 <script>
 import {baseURL} from "@/_paras";
 import sideBar from '@/components/sideBar.vue'
+import upload from '@/components/uploadView.vue'
+import fileManageView from "@/components/fileManageView.vue";
+import editView from "@/components/editView.vue";
 var axios=require("axios")
 
 export default {
   components:{
-    sideBar
+    sideBar,
+    upload,
+    fileManageView,
+    editView
   },
   data() {
     return {
@@ -60,6 +70,9 @@ export default {
 </script>
 
 <style scoped>
+.component{
+  margin-left: 200px;
+}
 .sidebar{
   position: fixed;
 }
