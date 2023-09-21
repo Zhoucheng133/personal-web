@@ -115,7 +115,8 @@ export default {
         params: {
           title: this.inputTitle,
           tag: this.inputTag,
-          top: this.top
+          top: this.top,
+          path: this.path
         }
       }).then((response)=>{
         if(response.data.ok==true){
