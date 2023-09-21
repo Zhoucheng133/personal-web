@@ -6,7 +6,7 @@
       <div class="toolbar">
         <a-button v-if="path==''" type="text" style="margin-right: 10px;" disabled>上一层</a-button>
         <a-button v-else type="text" style="margin-right: 10px;" @click="backdir">上一层</a-button>
-        <a-button type='primary'>上传</a-button>
+        <a-button type='primary' @click="showUpload">上传</a-button>
       </div>
       <div class="main" ref="main">
         <div class="item" v-for="(item, index) in fileShown" :key="index" @click="clickItem(item)">
@@ -20,10 +20,35 @@
       </div>
     </div>
   </div>
-  <a-modal v-model:open="openOperation" title="操作" @ok="handleOk" centered>
+  <a-modal v-model:open="openOperation" title="操作" @ok="handleOk" centered style="user-select: none;" ok-Text="完成" cancel-Text="取消">
     <p>Some contents...</p>
     <p>Some contents...</p>
     <p>Some contents...</p>
+  </a-modal>
+
+  <a-modal v-model:open="openUpload" title="上传"  @ok="handleUpload" centered style="user-select: none;" ok-Text="上传" cancel-Text="取消" class="uploadArea">
+    <div class="modalbody">
+      <div class="inputItem">
+        <div class="inputText">标题</div>
+        <a-input class="inputArea" v-model:value="inputTitle"></a-input>
+      </div>
+      <div class="inputItem" style="margin-top: 30px;">
+        <div class="inputText">Tag</div>
+        <a-input class="inputArea" v-model:value="inputTag"></a-input>
+      </div>
+      <div class="inputItem2" style="margin-top: 30px;">
+        <div class="inputText">文件</div>
+        <div class="inputText">置顶</div>
+        <div class="uploadArea">
+          <a-upload :file-list="fileList" @remove="handleRemove" :before-upload="beforeUpload" @change="handleChange">
+            <a-button type="primary"> 
+              选择文件
+            </a-button>
+          </a-upload>
+        </div>
+        <div style="padding-top: 5px;"><a-switch v-model:checked="top" disabled /></div>
+      </div>
+    </div>
   </a-modal>
 </template>
 
@@ -41,12 +66,94 @@ export default {
       maskX: '-100%',
 
       fileShown: [],
+
+      selectedItem: null,
+
+      openUpload: false,
+
+      inputTitle: "",
+      inputTag: "",
+      top: false,
+      fileList: [],
     }
   },
   components:{
-    topBar
+    topBar,
   },
   methods: {
+    handleChange(){
+      this.fileList=this.fileList.slice(-1);
+    },
+    handleUpload() {
+      if(this.inputTitle==""){
+        this.$notification.error({
+          message: '上传失败',
+          description: '没有输入标题',
+        });
+        return;
+      }else if(this.fileList.length==0){
+        this.$notification.error({
+          message: '上传失败',
+          description: '没有上传文件',
+        });
+        return;
+      }
+
+      const { fileList } = this;
+      const formData = new FormData();
+      fileList.forEach(file => {
+        formData.append('file', file);
+      });
+
+      // You can use any AJAX library you like
+      axios.post(baseURL+"/api/upload", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          token: localStorage.getItem("token"),
+          name: localStorage.getItem("name")
+        },
+        params: {
+          title: this.inputTitle,
+          tag: this.inputTag,
+          top: this.top
+        }
+      }).then((response)=>{
+        if(response.data.ok==true){
+          this.$notification.success({
+            message: '上传成功',
+            description: '',
+          });
+          this.inputTitle="";
+          this.fileList=[];
+          this.inputTag="";
+          this.top=false;
+          this.openUpload=false;
+        }else{
+          this.$notification.error({
+            message: '上传失败',
+            description: response.data.reason,
+          });
+        }
+      }).catch(()=>{
+        this.$notification.error({
+          message: '登录失败',
+          description: '服务器连接出错，稍后重试',
+        });
+      })
+    },
+    beforeUpload(file) {
+      this.fileList = [...this.fileList, file];
+      return false;
+    },
+    handleRemove(file) {
+      const index = this.fileList.indexOf(file);
+      const newFileList = this.fileList.slice();
+      newFileList.splice(index, 1);
+      this.fileList = newFileList;
+    },
+    showUpload(){
+      this.openUpload=true;
+    },
     toPage(index){
       this.maskX='0';
       var that=this;
@@ -83,6 +190,7 @@ export default {
       }, 300);
     },
     clickItem(item){
+      this.selectedItem=item;
       // console.log(item);
       if(item.isFile==false){
         this.$refs.main.style.opacity=0;
@@ -157,6 +265,27 @@ export default {
 </script>
 
 <style scoped>
+.modalbody{
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.inputItem2{
+  display: grid;
+  width: 250px;
+  grid-template-columns: 125px 125px;
+  grid-template-rows: 30px auto;
+  text-align: left;
+}
+.inputItem{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 250px;
+}
 .pagemask{
   position: fixed;
   top: 0;
