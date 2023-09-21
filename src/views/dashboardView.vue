@@ -6,7 +6,8 @@
       <div class="toolbar">
         <a-button v-if="path==''" type="text" style="margin-right: 10px;" disabled>上一层</a-button>
         <a-button v-else type="text" style="margin-right: 10px;" @click="backdir">上一层</a-button>
-        <a-button type='primary' @click="showUpload">上传</a-button>
+        <a-button type='primary' @click="showUpload" style="margin-right: 10px;">上传</a-button>
+        <a-button @click="newFolder">新建文件夹</a-button>
       </div>
       <div class="main" ref="main">
         <div class="item" v-for="(item, index) in fileShown" :key="index" @click="clickItem(item)">
@@ -77,6 +78,9 @@ export default {
     topBar,
   },
   methods: {
+    newFolder(){
+      // TODO 新建文件夹
+    },
     delFile(item){
       console.log("删除: "+item.name);
       // TODO 删除文档
