@@ -1,13 +1,14 @@
 <template>
   <div class="body">
-    <topBar :pageIndex="pageIndex" />
+    <div class="pagemask" :style="{'transform': 'translateX('+maskX+')'}"></div>
+    <topBar :pageIndex="pageIndex" @toPage="toPage" />
     <div class="content">
       <div class="toolbar">
         <a-button v-if="path==''" type="text" style="margin-right: 10px;" disabled>上一层</a-button>
         <a-button v-else type="text" style="margin-right: 10px;" @click="backdir">上一层</a-button>
         <a-button type='primary'>上传</a-button>
       </div>
-      <div class="main">
+      <div class="main" ref="main">
         <div class="item" v-for="(item, index) in fileShown" :key="index" @click="clickItem(item)">
             <div class="itemContent">
               <svg v-if="item.isFile==true" width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M39 4H11C9.89543 4 9 4.89543 9 6V42C9 43.1046 9.89543 44 11 44H39C40.1046 44 41 43.1046 41 42V6C41 4.89543 40.1046 4 39 4Z" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 30L31 30" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 36H24" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="17" y="12" width="14" height="10" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -37,6 +38,7 @@ export default {
       path: "",
 
       openOperation: false,
+      maskX: '-100%',
 
       fileShown: [],
     }
@@ -45,6 +47,21 @@ export default {
     topBar
   },
   methods: {
+    toPage(index){
+      this.maskX='0';
+      var that=this;
+      setTimeout(() => {
+        if(index==0){
+          that.$router.push("/");
+        }else if(index==1){
+          that.$router.push("/blog");
+        }else if(index==2){
+          that.$router.push("/dev");
+        }else if(index==3){
+          that.$router.push("/about");
+        }
+      }, 800);
+    },
     operation(){
       this.openOperation=true;
     },
@@ -53,19 +70,28 @@ export default {
       this.openOperation=false;
     },
     backdir(){
+      this.$refs.main.style.opacity=0;
       const lastIndex = this.path.lastIndexOf("/");
       if (lastIndex === -1) {
         this.path = "";
       } else {
         this.path = this.path.substring(0, lastIndex);
       }
-      this.getFile();
+      setTimeout(() => {
+        this.getFile();
+        this.$refs.main.style.opacity=1;
+      }, 300);
     },
     clickItem(item){
-      console.log(item);
+      // console.log(item);
       if(item.isFile==false){
+        this.$refs.main.style.opacity=0;
         this.path+=item.name;
-        this.getFile();
+        setTimeout(() => {
+          this.getFile();
+          this.$refs.main.style.opacity=1;
+        }, 300);
+
       }
     },
     checkLogin(){
@@ -110,7 +136,6 @@ export default {
           if(response.data.ok){
             this.fileShown=response.data.files;
             this.fileShown=this.fileShown.filter(item => item.name!='.DS_Store');
-            // console.log(this.fileShown);
           }else{
             this.$notification.error({
               message: '登录失败',
@@ -132,6 +157,28 @@ export default {
 </script>
 
 <style scoped>
+.pagemask{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  z-index: 200;
+  transition: all ease-in-out .8s;
+}
+
+@keyframes opacityAnimation {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+.main{
+  transition: all linear .3s;
+}
 .toolbar{
   height: 60px;
   display: flex;
@@ -165,6 +212,8 @@ export default {
   display: flex;
   flex-direction: column;
   background-color: white;
+  opacity: 0;
+  animation: opacityAnimation linear .3s forwards;
 }
 .body{
   display: flex;
