@@ -86,7 +86,7 @@ export default {
       // console.log(item);
       if(item.isFile==false){
         this.$refs.main.style.opacity=0;
-        this.path+=item.name;
+        this.path+="/"+item.name;
         setTimeout(() => {
           this.getFile();
           this.$refs.main.style.opacity=1;
