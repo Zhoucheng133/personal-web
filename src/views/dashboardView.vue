@@ -15,16 +15,13 @@
               <svg v-else width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 8C5 6.89543 5.89543 6 7 6H19L24 12H41C42.1046 12 43 12.8954 43 14V40C43 41.1046 42.1046 42 41 42H7C5.89543 42 5 41.1046 5 40V8Z" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/><path d="M43 22H5" stroke="#000000" stroke-width="3" stroke-linejoin="round"/><path d="M5 16V28" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M43 16V28" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <div class="itemContent">{{ item.name }}</div>
-            <div class="itemContent" @click.stop="operation"><svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 4H6C4.89543 4 4 4.89543 4 6V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V6C20 4.89543 19.1046 4 18 4Z" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/><path d="M18 28H6C4.89543 28 4 28.8954 4 30V42C4 43.1046 4.89543 44 6 44H18C19.1046 44 20 43.1046 20 42V30C20 28.8954 19.1046 28 18 28Z" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/><path d="M42 4H30C28.8954 4 28 4.89543 28 6V18C28 19.1046 28.8954 20 30 20H42C43.1046 20 44 19.1046 44 18V6C44 4.89543 43.1046 4 42 4Z" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/><path d="M28 28H44" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M36 36H44" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 44H44" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="itemContent" @click.stop="delFile(item)" v-if="item.isFile==true">
+              <svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 10V44H39V10H9Z" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/><path d="M20 20V33" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 20V33" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10H44" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 10L19.289 4H28.7771L32 10H16Z" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/></svg>
+            </div>
         </div>
       </div>
     </div>
   </div>
-  <a-modal v-model:open="openOperation" title="操作" @ok="handleOk" centered style="user-select: none;" ok-Text="完成" cancel-Text="取消">
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-  </a-modal>
 
   <a-modal v-model:open="openUpload" title="上传"  @ok="handleUpload" centered style="user-select: none;" ok-Text="上传" cancel-Text="取消" class="uploadArea">
     <div class="modalbody">
@@ -62,7 +59,6 @@ export default {
       pageIndex: 9,
       path: "",
 
-      openOperation: false,
       maskX: '-100%',
 
       fileShown: [],
@@ -81,6 +77,10 @@ export default {
     topBar,
   },
   methods: {
+    delFile(item){
+      console.log("删除: "+item.name);
+      // TODO 删除文档
+    },
     handleChange(){
       this.fileList=this.fileList.slice(-1);
     },
@@ -170,13 +170,6 @@ export default {
         }
       }, 800);
     },
-    operation(){
-      this.openOperation=true;
-    },
-    handleOk(){
-      console.log("ok!");
-      this.openOperation=false;
-    },
     backdir(){
       this.$refs.main.style.opacity=0;
       const lastIndex = this.path.lastIndexOf("/");
@@ -200,8 +193,8 @@ export default {
           this.getFile();
           this.$refs.main.style.opacity=1;
         }, 300);
-
       }
+      // TODO 打开文档
     },
     checkLogin(){
       if(localStorage.getItem("token")==null || localStorage.getItem("name")==null){
