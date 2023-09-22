@@ -62,7 +62,10 @@
 <script>
 import topBar from '@/components/topBar.vue';
 import {baseURL} from "@/_paras";
-var axios=require("axios")
+var axios=require("axios");
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import { createVNode } from 'vue';
+import { Modal } from 'ant-design-vue';
 export default {
   data() {
     return {
@@ -137,8 +140,41 @@ export default {
       this.openNewFolder=true;
     },
     delFile(item){
-      console.log("删除: "+item.name);
-      // TODO 删除文档
+      var that=this;
+      Modal.confirm({
+        content: '删除文件',
+        centered: true,
+        icon: createVNode(ExclamationCircleOutlined),
+        onOk() {
+          axios.get(baseURL+"/api/delFile", {
+            headers: {
+              token: localStorage.getItem("token"),
+              name: localStorage.getItem("name")
+            },
+            params: {
+              fileName: item.name.substring(0,item.name.length-3),
+              path: that.path
+            }
+          }).then((response)=>{
+            if(response.data.ok){
+              that.$notification.success({
+                message: '删除成功',
+                description: '',
+              });
+              that.getFile();
+            }else{
+              that.$notification.error({
+                message: '删除失败',
+                description: response.data.reason,
+              });
+            }
+          });
+        },
+        cancelText: '取消',
+        onCancel() {
+          Modal.destroyAll();
+        },
+      });
     },
     handleChange(){
       this.fileList=this.fileList.slice(-1);
