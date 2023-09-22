@@ -322,27 +322,33 @@ export default {
     },
     getFile(){
       axios.get(baseURL+"/api/fileManage", {
-          params:{
-            path: this.path
-          },
-          headers:{
-            token: localStorage.getItem("token"),
-            name: localStorage.getItem("name")
-          }
-        }).then((response)=>{
-          if(response.data.ok){
-            this.fileShown=response.data.files;
-            this.fileShown=this.fileShown.filter(item => item.name!='.DS_Store');
-          }else{
-            this.$notification.error({
-              message: '登录失败',
-              description:
-                'Token过期或有误',
-            });
-            localStorage.clear();
-            this.$router.push("/dashboard/login")
-          }
-        });
+        params:{
+          path: this.path
+        },
+        headers:{
+          token: localStorage.getItem("token"),
+          name: localStorage.getItem("name")
+        }
+      }).then((response)=>{
+        if(response.data.ok){
+          this.fileShown=response.data.files;
+          this.fileShown=this.fileShown.filter(item => item.name!='.DS_Store');
+        }else{
+          this.$notification.error({
+            message: '登录失败',
+            description:
+              'Token过期或有误',
+          });
+          localStorage.clear();
+          this.$router.push("/dashboard/login")
+        }
+      }).catch(()=>{
+        this.$notification.error({
+            message: '服务器连接失败',
+            description:
+              '检查服务器运行状态!',
+          });
+      });
     }
   },
   created() {
