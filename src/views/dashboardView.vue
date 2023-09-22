@@ -7,7 +7,7 @@
         <a-button v-if="path==''" type="text" style="margin-right: 10px;" disabled>上一层</a-button>
         <a-button v-else type="text" style="margin-right: 10px;" @click="backdir">上一层</a-button>
         <a-button type='primary' @click="showUpload" style="margin-right: 10px;">上传</a-button>
-        <a-button @click="newFolder">新建文件夹</a-button>
+        <a-button type="text" @click="newFolder">新建文件夹</a-button>
       </div>
       <div class="main" ref="main">
         <div class="item" v-for="(item, index) in fileShown" :key="index" @click="clickItem(item)">
@@ -24,7 +24,16 @@
     </div>
   </div>
 
-  <a-modal v-model:open="openUpload" title="上传"  @ok="handleUpload" centered style="user-select: none;" ok-Text="上传" cancel-Text="取消" class="uploadArea">
+  <a-modal v-model:open="openNewFolder" title="新建文件夹" @ok="newFolderHandler" @cancel="cancelNewFolder" centered style="user-select: none;" ok-Text="新建文件夹" cancel-Text="取消">
+    <div class="modalbody">
+      <div class="inputItem">
+        <div class="inputText">新文件夹名称</div>
+        <a-input class="inputArea" v-model:value="inputNewFolderName"></a-input>
+      </div>
+    </div>
+  </a-modal>
+
+  <a-modal v-model:open="openUpload" title="上传"  @ok="handleUpload" @cancel="cancelUpload" centered style="user-select: none;" ok-Text="上传" cancel-Text="取消">
     <div class="modalbody">
       <div class="inputItem">
         <div class="inputText">标题</div>
@@ -37,7 +46,7 @@
       <div class="inputItem2" style="margin-top: 30px;">
         <div class="inputText">文件</div>
         <div class="inputText">置顶</div>
-        <div class="uploadArea">
+        <div>
           <a-upload :file-list="fileList" @remove="handleRemove" :before-upload="beforeUpload" @change="handleChange">
             <a-button type="primary"> 
               选择文件
@@ -67,19 +76,41 @@ export default {
       selectedItem: null,
 
       openUpload: false,
+      openNewFolder: false,
 
       inputTitle: "",
       inputTag: "",
       top: false,
       fileList: [],
+
+      inputNewFolderName: "",
     }
   },
   components:{
     topBar,
   },
   methods: {
+    cancelUpload(){
+      this.inputTitle="";
+      this.fileList=[];
+      this.inputTag="";
+      this.top=false;
+    },
+    cancelNewFolder(){
+      this.inputNewFolderName="";
+    },
+    newFolderHandler(){
+      if(this.inputNewFolderName==""){
+        this.$notification.error({
+          message: '新建文件夹失败',
+          description: '没有输入文件夹名称',
+        });
+        return;
+      }
+    },
     newFolder(){
       // TODO 新建文件夹
+      this.openNewFolder=true;
     },
     delFile(item){
       console.log("删除: "+item.name);
@@ -109,7 +140,6 @@ export default {
         formData.append('file', file);
       });
 
-      // You can use any AJAX library you like
       axios.post(baseURL+"/api/upload", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -263,6 +293,9 @@ export default {
 </script>
 
 <style scoped>
+.inputText{
+  margin-bottom: 5px;
+}
 .modalbody{
   margin-top: 20px;
   width: 100%;
