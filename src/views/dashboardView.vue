@@ -107,9 +107,33 @@ export default {
         });
         return;
       }
+
+      axios.get(baseURL+"/api/newFolder", {
+        headers: {
+          token: localStorage.getItem("token"),
+          name: localStorage.getItem("name")
+        },
+        params: {
+          folderName: this.inputNewFolderName,
+          path: this.path
+        }
+      }).then((response)=>{
+        if(response.data.ok){
+          this.$notification.success({
+            message: '新建文件夹成功',
+            description: '',
+          });
+          this.openNewFolder=false;
+          this.getFile();
+        }else{
+          this.$notification.error({
+            message: '新建文件夹失败',
+            description: '已存在的文件夹',
+          });
+        }
+      });
     },
     newFolder(){
-      // TODO 新建文件夹
       this.openNewFolder=true;
     },
     delFile(item){
