@@ -33,6 +33,8 @@
     </div>
   </a-modal>
 
+  <editView class="editView" v-if="showEdit" ref="editPanel" :item="selectedItem" @closeEdit="closeEdit" />
+
   <a-modal v-model:open="openUpload" title="上传"  @ok="handleUpload" @cancel="cancelUpload" centered style="user-select: none;" ok-Text="上传" cancel-Text="取消">
     <div class="modalbody">
       <div class="inputItem">
@@ -66,6 +68,7 @@ var axios=require("axios");
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import { createVNode } from 'vue';
 import { Modal } from 'ant-design-vue';
+import editView from '@/components/editView.vue';
 export default {
   data() {
     return {
@@ -87,12 +90,18 @@ export default {
       fileList: [],
 
       inputNewFolderName: "",
+
+      showEdit: false,
     }
   },
   components:{
     topBar,
+    editView,
   },
   methods: {
+    closeEdit(){
+      this.showEdit=false;
+    },
     cancelUpload(){
       this.inputTitle="";
       this.fileList=[];
@@ -288,6 +297,8 @@ export default {
           this.getFile();
           this.$refs.main.style.opacity=1;
         }, 300);
+      }else{
+        this.showEdit=true;
       }
       // TODO 打开文档
     },
@@ -360,6 +371,12 @@ export default {
 </script>
 
 <style scoped>
+.editView{
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: all linear .3s;
+}
 .inputText{
   margin-bottom: 5px;
 }
