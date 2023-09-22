@@ -187,6 +187,7 @@ export default {
           this.inputTag="";
           this.top=false;
           this.openUpload=false;
+          this.getFile();
         }else{
           this.$notification.error({
             message: '上传失败',
