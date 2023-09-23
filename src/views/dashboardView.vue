@@ -33,7 +33,7 @@
     </div>
   </a-modal>
 
-  <editView class="editView" v-if="showEdit" ref="editPanel" :item="selectedItem" @closeEdit="closeEdit" />
+  <editView class="editView" v-if="showEdit" ref="editPanel" :path="path" :item="selectedItem" @closeEdit="closeEdit" />
 
   <a-modal v-model:open="openUpload" title="上传"  @ok="handleUpload" @cancel="cancelUpload" centered style="user-select: none;" ok-Text="上传" cancel-Text="取消">
     <div class="modalbody">
