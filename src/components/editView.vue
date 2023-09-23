@@ -2,13 +2,17 @@
   <div class="body" ref="editMain">
     <div class="barTop">
       <div class="name">{{ item.name }}</div>
+      <div class="saveButton">
+        <svg width="16" class="icon" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9C6 7.34315 7.34315 6 9 6H34.2814L42 13.2065V39C42 40.6569 40.6569 42 39 42H9C7.34315 42 6 40.6569 6 39V9Z" fill="none" stroke="#ffffff" stroke-width="3" stroke-linejoin="round"/><path fill-rule="evenodd" clip-rule="evenodd" d="M24.0083 6L24 13.3846C24 13.7245 23.5523 14 23 14H15C14.4477 14 14 13.7245 14 13.3846L14 6" fill="none"/><path d="M24.0083 6L24 13.3846C24 13.7245 23.5523 14 23 14H15C14.4477 14 14 13.7245 14 13.3846L14 6H24.0083Z" stroke="#ffffff" stroke-width="3" stroke-linejoin="round"/><path d="M9 6H34.2814" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 26H34" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 34H24.0083" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        保存
+      </div>
       <div class="closeButton" @click="closeEdit">
-        <svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 8L40 40" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 40L40 8" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="16" class="icon" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 8L40 40" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 40L40 8" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         关闭
       </div>
     </div>
 
-    <v-md-editor v-model="content" height="100%" width="100%" class="codeText"></v-md-editor>
+    <v-md-editor v-model="content" height="calc(100vh - 60px)" class="codeText"></v-md-editor>
   </div>
 </template>
 
@@ -59,6 +63,28 @@ export default {
 </script>
 
 <style scoped>
+.icon{
+  margin-right: 5px;
+}
+.saveButton:hover{
+  cursor: pointer;
+  background-color: rgb(17, 128, 0);
+}
+.saveButton{
+  margin-left: auto;
+  align-items: center;
+  user-select: none;
+  width: 80px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  color: white;
+  background-color: rgb(27, 200, 0);
+  line-height: 30px;
+  transition: all linear .3s;
+}
 .codeText{
   text-align: left !important;
 }
@@ -67,11 +93,11 @@ export default {
   cursor: pointer;
 }
 .closeButton{
-  margin-left: auto;
+  margin-left: 10px;
   align-items: center;
   margin-right: 20px;
   user-select: none;
-  width: 70px;
+  width: 80px;
   height: 30px;
   display: flex;
   align-items: center;
