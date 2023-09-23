@@ -31,16 +31,19 @@ export default {
   },
   methods: {
     saveEdit(){
-      axios.get(baseURL+"/api/saveEdit", {
+      // fileName: this.item.name,
+      // path: this.path,
+      // content: encodeURIComponent(this.content),
+      var params = new URLSearchParams();
+      params.append('fileName', this.item.name);
+      params.append('path', this.path);
+      params.append('content', encodeURIComponent(this.content));
+
+      axios.post(baseURL+"/api/saveEdit", params, {
         headers: {
           token: localStorage.getItem("token"),
-          name: localStorage.getItem("name")
+          name: localStorage.getItem("name"),
         },
-        params: {
-          fileName: this.item.name,
-          path: this.path,
-          content: encodeURIComponent(this.content)
-        }
       }).then((response)=>{
         if(response.data.ok){
           this.$notification.success({
