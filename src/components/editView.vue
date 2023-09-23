@@ -7,11 +7,20 @@
         关闭
       </div>
     </div>
+
+    <v-md-editor v-model="content" height="100%" width="100%" class="codeText"></v-md-editor>
   </div>
 </template>
 
 <script>
+import {baseURL} from "@/_paras";
+var axios=require("axios")
 export default {
+  data() {
+    return {
+      content: "",
+    }
+  },
   props: {
     item: Object
   },
@@ -21,6 +30,20 @@ export default {
       setTimeout(() => {
         this.$emit("closeEdit");
       }, 300);
+    },
+    contentRequest(){
+      axios.get(baseURL+"/api/getContentByName", {
+        headers: {
+          token: localStorage.getItem("token"),
+          name: localStorage.getItem("name")
+        },
+        params: {
+          fileName: this.item.name.substring(0, this.item.name.length-3),
+        }
+      }).then((response)=>{
+        // console.log(response.data);
+        this.content=response.data.content
+      });
     }
   },
   mounted() {
@@ -30,12 +53,15 @@ export default {
     }, 20);
   },
   created() {
-    
+    this.contentRequest();
   },
 }
 </script>
 
 <style scoped>
+.codeText{
+  text-align: left !important;
+}
 .closeButton:hover{
   background-color: rgb(196, 0, 0);
   cursor: pointer;
