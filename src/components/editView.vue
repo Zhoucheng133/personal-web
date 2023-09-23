@@ -39,7 +39,7 @@ export default {
         params: {
           fileName: this.item.name,
           path: this.path,
-          content: this.content
+          content: encodeURIComponent(this.content)
         }
       }).then((response)=>{
         if(response.data.ok){
