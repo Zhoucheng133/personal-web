@@ -300,7 +300,6 @@ export default {
       }else{
         this.showEdit=true;
       }
-      // TODO 打开文档
     },
     checkLogin(){
       if(localStorage.getItem("token")==null || localStorage.getItem("name")==null){
@@ -344,6 +343,15 @@ export default {
         if(response.data.ok){
           this.fileShown=response.data.files;
           this.fileShown=this.fileShown.filter(item => item.name!='.DS_Store');
+          this.fileShown.sort(function(a, b) {
+            if (a.name < b.name) {
+              return -1;
+            } else if (a.name > b.name) {
+              return 1;
+            } else {
+              return 0;
+            }
+          })
         }else{
           this.$notification.error({
             message: '登录失败',
