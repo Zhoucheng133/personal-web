@@ -284,7 +284,7 @@ export default {
       }
       setTimeout(() => {
         this.getFile();
-        this.$refs.main.style.opacity=1;
+        // this.$refs.main.style.opacity=1;
       }, 300);
     },
     clickItem(item){
@@ -295,7 +295,7 @@ export default {
         this.path+="/"+item.name;
         setTimeout(() => {
           this.getFile();
-          this.$refs.main.style.opacity=1;
+          // this.$refs.main.style.opacity=1;
         }, 300);
       }else{
         this.showEdit=true;
@@ -352,6 +352,7 @@ export default {
               return 0;
             }
           })
+          this.$refs.main.style.opacity=1;
         }else{
           this.$notification.error({
             message: '登录失败',
