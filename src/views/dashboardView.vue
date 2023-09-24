@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <div class="pagemask" :style="{'transform': 'translateX('+maskX+')'}"></div>
-    <topBar :pageIndex="pageIndex" @toPage="toPage" />
+    <topBar :pageIndex="pageIndex" @toPage="toPage" :mobile="mobile" />
     <div class="content">
       <div class="toolbar">
         <a-button v-if="path==''" type="text" style="margin-right: 10px;" disabled>上一层</a-button>
@@ -72,8 +72,10 @@ import editView from '@/components/editView.vue';
 export default {
   data() {
     return {
-      pageIndex: 9,
+      pageIndex: 2,
       path: "",
+
+      mobile: false,
 
       maskX: '-100%',
 
@@ -110,6 +112,13 @@ export default {
     },
     cancelNewFolder(){
       this.inputNewFolderName="";
+    },
+    windowController(){
+      if(window.innerWidth<700){
+        this.mobile=true;
+      }else{
+        this.mobile=false;
+      }
     },
     newFolderHandler(){
       if(this.inputNewFolderName==""){
@@ -268,7 +277,7 @@ export default {
         }else if(index==1){
           that.$router.push("/blog");
         }else if(index==2){
-          that.$router.push("/dev");
+          that.$router.push("/dashboard");
         }else if(index==3){
           that.$router.push("/about");
         }
@@ -371,7 +380,13 @@ export default {
       });
     }
   },
+  mounted() {
+    window.onresize=()=>{
+      this.windowController();
+    }
+  },
   created() {
+    this.windowController();
     document.title="控制台";
     this.checkLogin();
     this.getFile();

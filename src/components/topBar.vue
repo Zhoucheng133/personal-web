@@ -26,13 +26,23 @@
         </div>
       </div>
 
-      <div :class="pageIndex==2?'itemSelected':'item'" style="margin-right: 5px;"  @click="toPage(2)">
+      <!-- <div :class="pageIndex==2?'itemSelected':'item'" style="margin-right: 5px;"  @click="toPage(2)">
         <div style="overflow: hidden;display: flex;align-items: center;justify-self: center;">
           <svg class="itemIcon" style="animation-delay: 1.4s;" width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 13L4 25.4322L16 37" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 13L44 25.4322L32 37" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 4L21 44" stroke="#000000" stroke-width="3" stroke-linecap="round"/></svg>
         </div>
         <div class="itemText">
           <div class="mask"></div>
           <div class="textContent" v-show="!mobile">开发</div>
+        </div>
+      </div> -->
+
+      <div :class="pageIndex==2?'itemSelected':'item'" style="margin-right: 5px;" @click="toPage(2)">
+        <div style="overflow: hidden;display: flex;align-items: center;justify-self: center;">
+          <svg class="itemIcon"  style="animation-delay: 1.4s;" width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M36 4H12C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20H36C40.4183 20 44 16.4183 44 12C44 7.58172 40.4183 4 36 4Z" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/><path d="M36 28H12C7.58172 28 4 31.5817 4 36C4 40.4183 7.58172 44 12 44H36C40.4183 44 44 40.4183 44 36C44 31.5817 40.4183 28 36 28Z" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/><path d="M36 14C37.1046 14 38 13.1046 38 12C38 10.8954 37.1046 10 36 10C34.8954 10 34 10.8954 34 12C34 13.1046 34.8954 14 36 14Z" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/><path d="M12 38C13.1046 38 14 37.1046 14 36C14 34.8954 13.1046 34 12 34C10.8954 34 10 34.8954 10 36C10 37.1046 10.8954 38 12 38Z" fill="none" stroke="#000000" stroke-width="3" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="itemText">
+          <div class="mask"></div>
+          <div class="textContent" v-show="!mobile">控制台</div>
         </div>
       </div>
 

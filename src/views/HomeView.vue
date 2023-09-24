@@ -42,7 +42,7 @@ export default {
         }else if(index==1){
           that.$router.push("/blog");
         }else if(index==2){
-          that.$router.push("/dev");
+          that.$router.push("/dashboard");
         }else if(index==3){
           that.$router.push("/about");
         }
