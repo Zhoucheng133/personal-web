@@ -312,7 +312,8 @@ export default {
     },
     checkLogin(){
       if(localStorage.getItem("token")==null || localStorage.getItem("name")==null){
-        this.$router.push("/dashboard/login")
+        this.$router.push("/dashboard/login");
+        return;
       }else{
         axios.get(baseURL+"/api/checkLogin", {
           headers:{
@@ -335,11 +336,14 @@ export default {
             description:
               '服务器连接出错，稍后重试',
           });
-          this.$router.push("/dashboard/login")
+          this.$router.push("/dashboard/login");
         })
       }
     },
     getFile(){
+      if(localStorage.getItem("token")==null || localStorage.getItem("name")==null){
+        return;
+      }
       axios.get(baseURL+"/api/fileManage", {
         params:{
           path: this.path
@@ -369,7 +373,7 @@ export default {
               'Token过期或有误',
           });
           localStorage.clear();
-          this.$router.push("/dashboard/login")
+          this.$router.push("/dashboard/login");
         }
       }).catch(()=>{
         this.$notification.error({
