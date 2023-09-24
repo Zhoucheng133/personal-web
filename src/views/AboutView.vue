@@ -11,6 +11,7 @@
         <div class="dep">Vue</div>
         <div class="dep">Spring Boot</div>
         <div class="dep">Ant Design of Vue</div>
+        <div class="dep">v-md-editor</div>
         <div class="dep">IconPark</div>
         <div class="dep">axios</div>
         <div class="dep">crypto-js</div>
