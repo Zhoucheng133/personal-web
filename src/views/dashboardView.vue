@@ -357,13 +357,31 @@ export default {
           this.fileShown=response.data.files;
           this.fileShown=this.fileShown.filter(item => item.name!='.DS_Store');
           this.fileShown.sort(function(a, b) {
-            if (a.name < b.name) {
-              return -1;
-            } else if (a.name > b.name) {
-              return 1;
-            } else {
-              return 0;
+            var regex = /(\d+)|(\D+)/g;
+
+            var tokensA = a.name.match(regex);
+            var tokensB = b.name.match(regex);
+
+            while (tokensA.length > 0 && tokensB.length > 0) {
+              var tokenA = tokensA.shift();
+              var tokenB = tokensB.shift();
+
+              var numA = parseInt(tokenA, 10);
+              var numB = parseInt(tokenB, 10);
+
+              // 如果两个token都是数字，则按整体数字大小比较
+              if (!isNaN(numA) && !isNaN(numB)) {
+                if (numA < numB) return -1;
+                else if (numA > numB) return 1;
+              } else {
+                // 否则按字符串的字典序比较
+                if (tokenA < tokenB) return -1;
+                else if (tokenA > tokenB) return 1;
+              }
             }
+
+            // 如果一个字符串先结束，则它较小
+            return tokensA.length - tokensB.length;
           })
           this.$refs.main.style.opacity=1;
         }else{
