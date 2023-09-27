@@ -15,6 +15,21 @@
           </div>
         </div>
       </div>
+
+      <div class="searchBar">
+        <div :class="sort=='timeUp' || sort=='timeDown' ? 'sortBySelected':'sortBy'" @click="changeSortTime">
+          发布时间
+          <CaretUpOutlined class="sortIcon" v-if="sort=='timeUp'"  />
+          <CaretDownOutlined class="sortIcon" v-else />
+        </div>
+        <div :class="sort=='nameUp' || sort=='nameDown' ? 'sortBySelected':'sortBy'" @click="changeSortName">
+          标题
+          <CaretUpOutlined class="sortIcon" v-if="sort=='nameUp'"  />
+          <CaretDownOutlined class="sortIcon" v-else />
+        </div>
+        <a-input-search size="large" v-model:value="searchInput" enter-button="搜索" @search="handleSearch"></a-input-search>
+      </div>
+
       <div v-for="(item, index) in shownList" :key="index" class="blogSelector" :style="{'animation-delay': index*100+'ms'}" @click="toContent(item['id'])">
         <div class="blogTitle" :style="{'font-size': mobile==false ? '20px' : '15px'}">{{ item["title"] }}</div>
         <div class="info" :style="{'font-size': mobile==false ? '15px' : '12px'}">
@@ -43,17 +58,24 @@ import { FieldTimeOutlined, TagOutlined } from '@ant-design/icons-vue';
 import {baseURL} from "@/_paras";
 var axios=require("axios")
 import topBar from '@/components/topBar.vue';
+import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons-vue';
 export default {
   components: {
     topBar,
     FieldTimeOutlined,
-    TagOutlined
+    TagOutlined,
+    CaretDownOutlined,
+    CaretUpOutlined
   },
   data() {
     return {
       pageIndex: 1,
       maskX: '-100%',
       mobile: false,
+
+      sort: "timeDown",
+
+      searchInput: "",
 
       blogList: [],
       shownList: [],
@@ -65,6 +87,15 @@ export default {
     }
   },
   methods: {
+    handleSearch(){
+
+    },
+    changeSortName(){
+
+    },
+    changeSortTime(){
+      
+    },
     toContent(id){
       this.maskX='0';
       var that=this;
@@ -201,6 +232,33 @@ export default {
 </script>
 
 <style scoped>
+.sortIcon{
+  margin-right: 10px;
+  margin-left: 5px;
+}
+.sortBySelected{
+  color: rgb(255, 200, 0);
+}
+.sortBy:hover, .sortBySelected:hover{
+  cursor: pointer;
+}
+.sortBy, .sortBySelected{
+  display: flex;
+  align-items: center;
+  white-space:nowrap;
+  user-select: none;
+  transition: all ease-in-out .3s;
+}
+.searchBar{
+  height: 60px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid lightgrey;
+  opacity: 0;
+  animation: opacityAnimation linear .3s forwards;
+  animation-delay: 1s;
+}
 .icon{
   margin-left: 10px;
 }
@@ -310,7 +368,6 @@ export default {
   user-select: none;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid lightgrey;
   opacity: 0;
   animation: opacityAnimation linear .3s forwards;
   animation-delay: 1s;
