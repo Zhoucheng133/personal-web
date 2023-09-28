@@ -24,8 +24,8 @@
         </div>
         <div :class="sort=='nameUp' || sort=='nameDown' ? 'sortBySelected':'sortBy'" @click="changeSortName">
           标题
-          <CaretUpOutlined class="sortIcon" v-if="sort=='nameUp'"  />
-          <CaretDownOutlined class="sortIcon" v-else />
+          <CaretDownOutlined class="sortIcon" v-if="sort=='nameDown'" />
+          <CaretUpOutlined class="sortIcon" v-else />
         </div>
         <a-input-search size="large" v-model:value="searchInput" enter-button="搜索" @search="handleSearch"></a-input-search>
       </div>
@@ -34,7 +34,7 @@
         <div class="blogTitle" :style="{'font-size': mobile==false ? '20px' : '15px'}">{{ item["title"] }}</div>
         <div class="info" :style="{'font-size': mobile==false ? '15px' : '12px'}">
           <div style="max-width: 100%;">
-            {{ item['date'] }}<FieldTimeOutlined class="icon" />
+            {{ displayTime(item) }}<FieldTimeOutlined class="icon" />
           </div>
           <div style="margin-top: 5px; max-width: 100%; overflow: hidden; text-overflow: ellipsis;">
             {{ item['tag'] }}<TagOutlined class="icon"/>
@@ -91,10 +91,124 @@ export default {
 
     },
     changeSortName(){
+      if(this.sort=="nameUp"){
+        this.sort="nameDown";
+        this.shownList.sort(function(a, b) {
+          var regex = /(\d+)|(\D+)/g;
 
+          var tokensA = a.title.match(regex);
+          var tokensB = b.title.match(regex);
+
+          while (tokensA.length > 0 && tokensB.length > 0) {
+            var tokenA = tokensA.shift();
+            var tokenB = tokensB.shift();
+
+            var numA = parseInt(tokenA, 10);
+            var numB = parseInt(tokenB, 10);
+
+            // 如果两个token都是数字，则按整体数字大小比较
+            if (!isNaN(numA) && !isNaN(numB)) {
+              if (numA < numB) return 1;
+              else if (numA > numB) return -1;
+            } else {
+              // 否则按字符串的字典序比较
+              if (tokenA < tokenB) return 1;
+              else if (tokenA > tokenB) return -1;
+            }
+          }
+
+          // 如果一个字符串先结束，则它较小
+          return tokensB.length - tokensA.length;
+        })
+      }else{
+        this.sort="nameUp";
+        this.shownList.sort(function(a, b) {
+          var regex = /(\d+)|(\D+)/g;
+
+          var tokensA = a.title.match(regex);
+          var tokensB = b.title.match(regex);
+
+          while (tokensA.length > 0 && tokensB.length > 0) {
+            var tokenA = tokensA.shift();
+            var tokenB = tokensB.shift();
+
+            var numA = parseInt(tokenA, 10);
+            var numB = parseInt(tokenB, 10);
+
+            // 如果两个token都是数字，则按整体数字大小比较
+            if (!isNaN(numA) && !isNaN(numB)) {
+              if (numA < numB) return -1;
+              else if (numA > numB) return 1;
+            } else {
+              // 否则按字符串的字典序比较
+              if (tokenA < tokenB) return -1;
+              else if (tokenA > tokenB) return 1;
+            }
+          }
+          // 如果一个字符串先结束，则它较小
+          return tokensA.length - tokensB.length;
+        })
+      }
     },
     changeSortTime(){
-      
+      if(this.sort=="timeDown"){
+        this.sort="timeUp";
+        this.shownList.sort(function(a, b) {
+          var regex = /(\d+)|(\D+)/g;
+
+          var tokensA = a.date.match(regex);
+          var tokensB = b.date.match(regex);
+
+          while (tokensA.length > 0 && tokensB.length > 0) {
+            var tokenA = tokensA.shift();
+            var tokenB = tokensB.shift();
+
+            var numA = parseInt(tokenA, 10);
+            var numB = parseInt(tokenB, 10);
+
+            // 如果两个token都是数字，则按整体数字大小比较
+            if (!isNaN(numA) && !isNaN(numB)) {
+              if (numA < numB) return -1;
+              else if (numA > numB) return 1;
+            } else {
+              // 否则按字符串的字典序比较
+              if (tokenA < tokenB) return -1;
+              else if (tokenA > tokenB) return 1;
+            }
+          }
+
+          // 如果一个字符串先结束，则它较小
+          return tokensA.length - tokensB.length;
+        })
+      }else{
+        this.sort="timeDown";
+        this.shownList.sort(function(a, b) {
+          var regex = /(\d+)|(\D+)/g;
+
+          var tokensA = a.date.match(regex);
+          var tokensB = b.date.match(regex);
+
+          while (tokensA.length > 0 && tokensB.length > 0) {
+            var tokenA = tokensA.shift();
+            var tokenB = tokensB.shift();
+
+            var numA = parseInt(tokenA, 10);
+            var numB = parseInt(tokenB, 10);
+
+            // 如果两个token都是数字，则按整体数字大小比较
+            if (!isNaN(numA) && !isNaN(numB)) {
+              if (numA < numB) return 1;
+              else if (numA > numB) return -1;
+            } else {
+              // 否则按字符串的字典序比较
+              if (tokenA < tokenB) return 1;
+              else if (tokenA > tokenB) return -1;
+            }
+          }
+          // 如果一个字符串先结束，则它较小
+          return tokensB.length - tokensA.length;
+        })
+      }
     },
     toContent(id){
       this.maskX='0';
@@ -106,43 +220,18 @@ export default {
     tagSelect(item){
       this.setBarFix=true;
       if(this.selectTag==item){
+        this.sort="timeDown";
         this.selectTag="";
         this.shownList=[];
         setTimeout(() => {
           this.shownList=this.blogList;
         }, 200);
       }else{
+        this.sort="nameUp";
         this.selectTag=item;
         this.shownList=[];
         setTimeout(() => {
-          this.shownList=this.blogList.filter(obj => obj.tag==item);
-          this.shownList.sort(function(a, b) {
-            var regex = /(\d+)|(\D+)/g;
-
-            var tokensA = a.title.match(regex);
-            var tokensB = b.title.match(regex);
-
-            while (tokensA.length > 0 && tokensB.length > 0) {
-              var tokenA = tokensA.shift();
-              var tokenB = tokensB.shift();
-
-              var numA = parseInt(tokenA, 10);
-              var numB = parseInt(tokenB, 10);
-
-              // 如果两个token都是数字，则按整体数字大小比较
-              if (!isNaN(numA) && !isNaN(numB)) {
-                if (numA < numB) return -1;
-                else if (numA > numB) return 1;
-              } else {
-                // 否则按字符串的字典序比较
-                if (tokenA < tokenB) return -1;
-                else if (tokenA > tokenB) return 1;
-              }
-            }
-
-            // 如果一个字符串先结束，则它较小
-            return tokensA.length - tokensB.length;
-          })
+          this.getAllBlogs();
         }, 200);
       }
       setTimeout(() => {
@@ -187,18 +276,20 @@ export default {
         this.mobile=false;
       }
     },
+    displayTime(item){
+      const date = new Date(item['date']);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1; // 月份从0开始，所以要加1
+      const day = date.getDate();
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+     return `${year}/${month}/${day}, ${hours}:${minutes}`;
+    },
     getAllBlogs(){
       axios.get(baseURL+"/api/blog/getAll").then((response)=>{
         this.blogList = response.data;
 
         for(var i=0; i<this.blogList.length; i++){
-          const date = new Date(this.blogList[i]['date']);
-          const year = date.getFullYear();
-          const month = date.getMonth() + 1; // 月份从0开始，所以要加1
-          const day = date.getDate();
-          const hours = date.getHours();
-          const minutes = date.getMinutes();
-          this.blogList[i]['date']=`${year}/${month}/${day}, ${hours}:${minutes}`;
 
           if(!this.tags.includes(this.blogList[i]['tag'])){
             this.tags.push(this.blogList[i]['tag'])
@@ -247,7 +338,7 @@ export default {
   align-items: center;
   white-space:nowrap;
   user-select: none;
-  transition: all ease-in-out .3s;
+  transition: all ease-in-out .2s;
 }
 .searchBar{
   height: 60px;
