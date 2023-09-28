@@ -225,13 +225,67 @@ export default {
         this.shownList=[];
         setTimeout(() => {
           this.shownList=this.blogList;
+          this.shownList.sort(function(a, b) {
+            var regex = /(\d+)|(\D+)/g;
+
+            var tokensA = a.date.match(regex);
+            var tokensB = b.date.match(regex);
+
+            while (tokensA.length > 0 && tokensB.length > 0) {
+              var tokenA = tokensA.shift();
+              var tokenB = tokensB.shift();
+
+              var numA = parseInt(tokenA, 10);
+              var numB = parseInt(tokenB, 10);
+
+              // 如果两个token都是数字，则按整体数字大小比较
+              if (!isNaN(numA) && !isNaN(numB)) {
+                if (numA < numB) return 1;
+                else if (numA > numB) return -1;
+              } else {
+                // 否则按字符串的字典序比较
+                if (tokenA < tokenB) return 1;
+                else if (tokenA > tokenB) return -1;
+              }
+            }
+
+            // 如果一个字符串先结束，则它较小
+            return tokensB.length - tokensA.length;
+          })
         }, 200);
       }else{
         this.sort="nameUp";
         this.selectTag=item;
         this.shownList=[];
         setTimeout(() => {
-          this.getAllBlogs();
+          this.shownList=this.blogList.filter(obj => obj.tag==item);
+          this.shownList.sort(function(a, b) {
+            var regex = /(\d+)|(\D+)/g;
+
+            var tokensA = a.title.match(regex);
+            var tokensB = b.title.match(regex);
+
+            while (tokensA.length > 0 && tokensB.length > 0) {
+              var tokenA = tokensA.shift();
+              var tokenB = tokensB.shift();
+
+              var numA = parseInt(tokenA, 10);
+              var numB = parseInt(tokenB, 10);
+
+              // 如果两个token都是数字，则按整体数字大小比较
+              if (!isNaN(numA) && !isNaN(numB)) {
+                if (numA < numB) return -1;
+                else if (numA > numB) return 1;
+              } else {
+                // 否则按字符串的字典序比较
+                if (tokenA < tokenB) return -1;
+                else if (tokenA > tokenB) return 1;
+              }
+            }
+
+            // 如果一个字符串先结束，则它较小
+            return tokensA.length - tokensB.length;
+          })
         }, 200);
       }
       setTimeout(() => {
