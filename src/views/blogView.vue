@@ -27,10 +27,10 @@
           <CaretDownOutlined class="sortIcon" v-if="sort=='nameDown'" />
           <CaretUpOutlined class="sortIcon" v-else />
         </div>
-        <a-input-search size="large" v-model:value="searchInput" enter-button="搜索" @search="handleSearch"></a-input-search>
+        <a-input size="large" v-model:value="searchInput" placeholder="在这里输入搜索内容"></a-input>
       </div>
 
-      <div v-for="(item, index) in shownList" :key="index" class="blogSelector" :style="{'animation-delay': index*100+'ms'}" @click="toContent(item['id'])">
+      <div v-for="(item, index) in shownList.filter(item => item.title.includes(searchInput))" :key="index" class="blogSelector" :style="{'animation-delay': index*100+'ms'}" @click="toContent(item['id'])">
         <div class="blogTitle" :style="{'font-size': mobile==false ? '20px' : '15px'}">{{ item["title"] }}</div>
         <div class="info" :style="{'font-size': mobile==false ? '15px' : '12px'}">
           <div style="max-width: 100%;">
@@ -84,12 +84,12 @@ export default {
 
       selectTag: "",
       setBarFix: true,
+
+      tmpList: [],
+      tmpSort: "",
     }
   },
   methods: {
-    handleSearch(){
-
-    },
     changeSortName(){
       if(this.sort=="nameUp"){
         this.sort="nameDown";
