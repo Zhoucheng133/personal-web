@@ -30,7 +30,7 @@
         <a-input size="large" v-model:value="searchInput" placeholder="在这里输入搜索内容"></a-input>
       </div>
 
-      <div v-for="(item, index) in shownList.filter(item => item.title.toLowerCase.includes(searchInput.toLowerCase))" :key="index" class="blogSelector" :style="{'animation-delay': index*100+'ms'}" @click="toContent(item['id'])">
+      <div v-for="(item, index) in shownList.filter(item => item.title.toLowerCase().includes(searchInput.toLowerCase()))" :key="index" class="blogSelector" :style="{'animation-delay': index*100+'ms'}" @click="toContent(item['id'])">
         <div class="blogTitle" :style="{'font-size': mobile==false ? '20px' : '15px'}">{{ item["title"] }}</div>
         <div class="info" :style="{'font-size': mobile==false ? '15px' : '12px'}">
           <div style="max-width: 100%;">
