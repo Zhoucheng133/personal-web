@@ -11,6 +11,10 @@
 </template>
 
 <style>
+::selection {
+  color: white;
+  background-color: rgb(255, 200, 0);
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
