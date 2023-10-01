@@ -17,8 +17,8 @@
 </template>
 
 <script>
-// import {baseURL} from "@/_paras";
-// var axios=require("axios")
+import {baseURL} from "@/_paras";
+var axios=require("axios")
 import topBar from '@/components/topBar.vue';
 export default {
   components: {
@@ -70,10 +70,16 @@ export default {
         this.mobile=false;
       }
     },
+    getAllCata(){
+      axios.get(baseURL+"/api/getAllCata").then((response)=>{
+        console.log(response.data);
+      })
+    }
   },
   mounted() {
     this.windowController();
     this.btAreaSet();
+    this.getAllCata();
     window.onresize=()=>{
       this.windowController();
       this.btAreaSet();
