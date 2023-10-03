@@ -6,6 +6,15 @@
     :mobile="mobile"
     @toPage="toPage" />
 
+    <div class="blogMian" :style="{ 'grid-template-columns': mobile==false ? '1fr 1fr 1fr 1fr':'1fr 1fr 1fr' }">
+      <div class="gridItem" v-for="(item, index) in cata" :key="index" :style="{'animation-delay': index*100+'ms'}" @click="toCata(item)">
+        <div class="itemInside">
+          {{ item }}
+        </div>
+      </div>
+    </div>
+
+
     <div :class="setBarFix==true?'btBar_Fix':'btBar'">
       <div style="display: flex;">
         <div>Zhouc's website |&nbsp;</div>
@@ -31,6 +40,8 @@ export default {
       mobile: false,
 
       setBarFix: undefined,
+
+      cata: [],
     }
   },
   methods: {
@@ -70,9 +81,12 @@ export default {
         this.mobile=false;
       }
     },
+    toCata(item){
+      this.$router.push("/blog/cata/"+item);
+    },
     getAllCata(){
       axios.get(baseURL+"/api/getAllCata").then((response)=>{
-        console.log(response.data);
+        this.cata=response.data;
       })
     }
   },
@@ -92,6 +106,64 @@ export default {
 </script>
 
 <style scoped>
+@keyframes opacityAnimation {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  0%{
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.itemInside {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  height: 100%;
+  line-height: 94px;
+  text-align: center;
+}
+.gridItem:hover{
+  cursor: pointer;
+  border: 3px solid rgb(255, 227, 100);
+}
+.gridItem{
+  padding-left: 5px;
+  padding-right: 5px;
+  border: 3px solid white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 100px;
+  background: linear-gradient(to right, white, rgb(255, 227, 100, .4));
+  animation: fadeIn ease-in-out .3s forwards;
+  opacity: 0;
+  user-select: none;
+  border-radius: 20px;
+  transition: all ease-in-out .3s;
+}
+.blogMian{
+  margin-top: 30px;
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  max-width: 1000px;
+  display: grid;
+  gap: 5px;
+  background-color: white;
+  overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+}
 .body{
   display: flex;
   flex-direction: column;
