@@ -69,6 +69,8 @@ export default {
   },
   data() {
     return {
+      cata: '',
+
       pageIndex: 1,
       maskX: '-100%',
       mobile: false,
@@ -341,12 +343,13 @@ export default {
     },
     getAllBlogs(){
       axios.get(baseURL+"/api/blog/getAll").then((response)=>{
-        this.blogList = response.data;
 
-        for(var i=0; i<this.blogList.length; i++){
-
-          if(!this.tags.includes(this.blogList[i]['tag']) && this.blogList[i]['tag']!=""  && this.blogList[i]['tag']!=null){
-            this.tags.push(this.blogList[i]['tag'])
+        for(var i=0; i<response.data.length; i++){
+          if(response.data[i].cata==this.cata){
+            this.blogList.push(response.data[i]);
+              if(!this.tags.includes(this.blogList[i]['tag']) && this.blogList[i]['tag']!=""  && this.blogList[i]['tag']!=null){
+              this.tags.push(this.blogList[i]['tag'])
+            }
           }
         }
         // console.log(this.blogList);
@@ -373,6 +376,7 @@ export default {
   created() {
     this.getAllBlogs();
     document.title="Zhouc's website - Blog";
+    this.cata=this.$route.params.cataName;
   },
 }
 </script>
