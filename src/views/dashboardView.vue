@@ -43,11 +43,11 @@
       </div>
       <div class="inputItem" style="margin-top: 30px;">
         <div class="inputText">Tag</div>
-        <a-input class="inputArea" v-model:value="inputTag"></a-input>
+        <a-auto-complete class="inputArea" v-model:value="inputTag" :options="allTag" />
       </div>
       <div class="inputItem" style="margin-top: 30px;">
         <div class="inputText">类别</div>
-        <a-input class="inputArea" v-model:value="inputCata"></a-input>
+        <a-auto-complete class="inputArea" v-model:value="inputCata" :options="allCata" />
       </div>
       <div class="inputItem2" style="margin-top: 30px;">
         <div class="inputText">文件</div>
@@ -99,6 +99,9 @@ export default {
       inputNewFolderName: "",
 
       showEdit: false,
+
+      allTag: [],
+      allCata: [],
     }
   },
   components:{
@@ -106,6 +109,23 @@ export default {
     editView,
   },
   methods: {
+    getTag_Cata(){
+      axios.get(baseURL+"/api/getAllTag").then((response)=>{
+        // console.log(response.data);
+        this.allTag=response.data;
+        for(var i=0;i<response.data.length;i++){
+          this.allTag[i]={value: this.allTag[i]}
+        }
+        // console.log(this.allTag);
+      });
+      axios.get(baseURL+"/api/getAllCata").then((response)=>{
+        // console.log(response.data);
+        this.allCata=response.data;
+        for(var i=0;i<response.data.length;i++){
+          this.allCata[i]={value: this.allCata[i]}
+        }
+      });
+    },
     closeEdit(){
       this.showEdit=false;
     },
@@ -271,6 +291,7 @@ export default {
       this.fileList = newFileList;
     },
     showUpload(){
+      this.getTag_Cata();
       this.openUpload=true;
     },
     toPage(index){
@@ -422,6 +443,9 @@ export default {
 </script>
 
 <style scoped>
+.inputArea{
+  width: 100%;
+}
 .editView{
   position: fixed;
   top: 0;
