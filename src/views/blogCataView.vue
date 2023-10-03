@@ -8,6 +8,9 @@
 
     <div class="content">
       <div class="fixBar">
+        <div class="backButton" >
+          <CaretLeftOutlined class="iconBack" @click="backCata" />
+        </div>
         <div class="text">TAG:</div>
         <div class="tagSelector">
           <div class="tagContent">
@@ -58,14 +61,15 @@ import { FieldTimeOutlined, TagOutlined } from '@ant-design/icons-vue';
 import {baseURL} from "@/_paras";
 var axios=require("axios")
 import topBar from '@/components/topBar.vue';
-import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons-vue';
+import { CaretDownOutlined, CaretUpOutlined, CaretLeftOutlined } from '@ant-design/icons-vue';
 export default {
   components: {
     topBar,
     FieldTimeOutlined,
     TagOutlined,
     CaretDownOutlined,
-    CaretUpOutlined
+    CaretUpOutlined,
+    CaretLeftOutlined
   },
   data() {
     return {
@@ -92,6 +96,9 @@ export default {
     }
   },
   methods: {
+    backCata(){
+      this.$router.push("/blog");
+    },
     changeSortName(){
       if(this.sort=="nameUp"){
         this.sort="nameDown";
@@ -342,7 +349,7 @@ export default {
      return `${year}/${month}/${day}, ${hours}:${minutes}`;
     },
     getAllBlogs(){
-      console.log(baseURL+"/api/blog/getAll");
+      // console.log(baseURL+"/api/blog/getAll");
       axios.get(baseURL+"/api/blog/getAll").then((response)=>{
         for(var i=0; i<response.data.length; i++){
           if(response.data[i].cata==this.cata){
@@ -382,6 +389,21 @@ export default {
 </script>
 
 <style scoped>
+.iconBack{
+  font-size: 30px;
+  transition: all linear .2s;
+}
+.iconBack:hover{
+  color: rgb(255, 200, 0);
+  cursor: pointer;
+}
+.backButton{
+  width: 50px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .sortIcon{
   margin-right: 10px;
   margin-left: 5px;
