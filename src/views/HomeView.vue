@@ -145,6 +145,7 @@ body{
   height: 100%;
   transform: translateX(-110%);
   background-color: black;
+  z-index: 100;
   animation: maskAnimation .8s ease-in-out forwards;
   /* animation-delay: 1s; */
 }
