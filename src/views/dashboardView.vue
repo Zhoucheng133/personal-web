@@ -45,6 +45,10 @@
         <div class="inputText">Tag</div>
         <a-input class="inputArea" v-model:value="inputTag"></a-input>
       </div>
+      <div class="inputItem" style="margin-top: 30px;">
+        <div class="inputText">类别</div>
+        <a-input class="inputArea" v-model:value="inputCata"></a-input>
+      </div>
       <div class="inputItem2" style="margin-top: 30px;">
         <div class="inputText">文件</div>
         <div class="inputText">置顶</div>
@@ -88,6 +92,7 @@ export default {
 
       inputTitle: "",
       inputTag: "",
+      inputCata: "",
       top: false,
       fileList: [],
 
