@@ -342,13 +342,13 @@ export default {
      return `${year}/${month}/${day}, ${hours}:${minutes}`;
     },
     getAllBlogs(){
+      console.log(baseURL+"/api/blog/getAll");
       axios.get(baseURL+"/api/blog/getAll").then((response)=>{
-
         for(var i=0; i<response.data.length; i++){
           if(response.data[i].cata==this.cata){
             this.blogList.push(response.data[i]);
-              if(!this.tags.includes(this.blogList[i]['tag']) && this.blogList[i]['tag']!=""  && this.blogList[i]['tag']!=null){
-              this.tags.push(this.blogList[i]['tag'])
+            if(!this.tags.includes(this.blogList[this.blogList.length-1]['tag']) && this.blogList[this.blogList.length-1]['tag']!=""  && this.blogList[this.blogList.length-1]['tag']!=null){
+              this.tags.push(this.blogList[this.blogList.length-1]['tag'])
             }
           }
         }
