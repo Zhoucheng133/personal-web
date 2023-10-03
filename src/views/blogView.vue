@@ -82,7 +82,11 @@ export default {
       }
     },
     toCata(item){
-      this.$router.push("/blog/cata/"+item);
+      this.maskX='0';
+      var that=this;
+      setTimeout(() => {
+        that.$router.push("/blog/cata/"+item);
+      }, 800);
     },
     getAllCata(){
       axios.get(baseURL+"/api/getAllCata").then((response)=>{

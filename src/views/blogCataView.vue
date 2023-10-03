@@ -97,7 +97,11 @@ export default {
   },
   methods: {
     backCata(){
-      this.$router.push("/blog");
+      this.maskX='0';
+      var that=this;
+      setTimeout(() => {
+        that.$router.push("/blog");
+      }, 800);
     },
     changeSortName(){
       if(this.sort=="nameUp"){
