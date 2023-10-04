@@ -8,29 +8,26 @@
 
     <div class="content">
       <div class="fixBar">
-        <!-- <div class="text">TAG:</div>
-        <div class="tagSelector">
-          <div class="tagContent">
-            <a-button size="small" class="tagButton" v-for="(item, index) in tags" :key="index" @click="tagSelect(item)" :type="selectTag==item ? 'primary':'default'">{{ item }}</a-button>
-          </div>
-        </div> -->
+        <div class="text" v-if="!mobile">FILTER</div>
+        <div :class="mobile? 'mobileSelect':'normalSelect'">
+          <div :class="mobile? 'mobileText':''">分类：</div>
+          <a-select
+            v-model:value="selectCata"
+            placeholder="选择分类"
+            style="width: 150px"
+            :options="catas"
+          ></a-select>
+        </div>
 
-        <div class="text">FILTER</div>
-        <div class="smallText">分类：</div>
-        <a-select
-          v-model:value="selectCata"
-          placeholder="选择分类"
-          style="width: 200px"
-          :options="catas"
-        ></a-select>
-
-        <div class="smallText">标签：</div>
-        <a-select
-          v-model:value="selectTag"
-          placeholder="选择标签"
-          style="width: 200px"
-          :options="tags"
-        ></a-select>
+        <div :class="mobile? 'mobileSelect':'normalSelect'">
+          <div :class="mobile? 'mobileText':''">标签：</div>
+          <a-select
+            v-model:value="selectTag"
+            placeholder="选择标签"
+            style="width: 150px"
+            :options="tags"
+          ></a-select>
+        </div>
       </div>
 
       <div class="searchBar">
@@ -370,6 +367,7 @@ export default {
     getAllBlogs(){
       // console.log(baseURL+"/api/blog/getAll");
       axios.get(baseURL+"/api/blog/getAll").then((response)=>{
+        // console.log(response.data);
         var blank={ value: "", label: "" };
         this.tags.push(blank);
         this.catas.push(blank);
@@ -392,7 +390,7 @@ export default {
 
           this.blogList.push(blogItem);
         }
-        console.log(this.catas);
+        // console.log(this.catas);
         // console.log(this.blogList);
         this.shownList=this.blogList;
         this.$nextTick(()=>{
@@ -430,8 +428,16 @@ export default {
 </script>
 
 <style scoped>
-.smallText{
+.mobileText{
+  margin-bottom: 5px;
+}
+.mobileSelect{
+  margin-right: 10px;
+}
+.normalSelect{
+  display: flex;
   margin-left: 20px;
+  align-items: center;
 }
 .sortIcon{
   margin-right: 10px;
