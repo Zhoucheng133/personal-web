@@ -11,6 +11,7 @@ import '@kangc/v-md-editor/lib/theme/style/github.css';
 import VMdEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
 
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 // highlightjs
 import hljs from 'highlight.js';

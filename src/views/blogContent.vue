@@ -34,6 +34,10 @@
       </div>
       <div class="copyright">2023 ~ now, All Rights Reserved.</div>
     </div>
+
+    <div class="topButton" v-show="showButton" @click="toTop">
+      <i class="bi bi-arrow-up-short" style="font-size: 40px;color: white;"></i>
+    </div>
   </div>
 </template>
 
@@ -56,6 +60,8 @@ export default {
       setBarFix: true,
 
       mobile: false,
+
+      showButton: false,
     }
   },
   components: {
@@ -95,6 +101,13 @@ export default {
     })
   },
   methods: {
+    toTop(){
+      window.scrollTo({
+        top: 0,
+        // 如果是滚动到底部，将0修改为document.body.clientHeight
+        behavior: "smooth"
+      });
+    },
     btAreaSet(){
       if(this.$refs.body.offsetHeight+80<document.body.offsetHeight){
         this.setBarFix=true;
@@ -145,11 +158,36 @@ export default {
       this.windowController();
       this.btAreaSet();
     }
+    document.onscroll=()=>{
+      if(window.pageYOffset==0){
+        this.showButton=false;
+      }else{
+        this.showButton=true;
+      }
+    }
   },
 }
 </script>
 
 <style scoped>
+.topButton:hover{
+  cursor: pointer;
+  background-color: rgb(230, 188, 0);
+}
+.topButton{
+  position: fixed;
+  right: 50px;
+  bottom: 200px;
+  height: 80px;
+  width: 80px;
+  background-color: rgb(255, 208, 0);
+  border-radius: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all ease-in-out .3s;
+}
+
 .backBar:hover{
   cursor: pointer;
 }
